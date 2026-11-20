@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spanish in the Present</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: a mid-century grammar textbook. Ink-blue on cool paper, an ochre rule for structure,
+   red reserved for one job: marking forms that break the regular pattern. */
+:root{
+  --paper:#f3f4f1; --sheet:#fbfbf9; --ink:#1d2a44; --muted:#5b6478; --rule:#c9ccc4;
+  --ochre:#b8862b; --ochre-soft:#efe3c8; --irr:#b3261e; --good:#2f6b3a; --bad:#b3261e;
+  --display:"Libre Caslon Text", Georgia, "Times New Roman", serif;
+  --body:"Libre Caslon Text", Georgia, "Times New Roman", serif;
+  --ui:"IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#141922; --sheet:#1b212c; --ink:#e3e6ec; --muted:#9aa3b5; --rule:#343c4a;
+    --ochre:#d8a94a; --ochre-soft:#3a3222; --irr:#ff8a80; --good:#7fcf8d; --bad:#ff8a80; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#141922; --sheet:#1b212c; --ink:#e3e6ec; --muted:#9aa3b5; --rule:#343c4a;
+  --ochre:#d8a94a; --ochre-soft:#3a3222; --irr:#ff8a80; --good:#7fcf8d; --bad:#ff8a80; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6}
+a{color:var(--ink)}
+button,input,select{font-family:var(--ui);font-size:15px;color:var(--ink)}
+:focus-visible{outline:2px solid var(--ochre);outline-offset:2px}
+header.top{background:var(--sheet);border-bottom:3px double var(--rule);position:sticky;top:0;z-index:5}
+.top-in{max-width:1100px;margin:0 auto;padding:10px 16px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.brand{font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:.01em;margin-right:auto}
+.brand small{display:block;font-family:var(--ui);font-weight:400;font-size:12px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+nav.tabs{display:flex;gap:4px;flex-wrap:wrap}
+nav.tabs a{font-family:var(--ui);text-decoration:none;padding:6px 12px;border:1px solid transparent;border-radius:3px;font-weight:500}
+nav.tabs a[aria-current="page"]{border-color:var(--ink);background:var(--ink);color:var(--sheet)}
+main{max-width:1100px;margin:0 auto;padding:24px 16px 80px}
+.view{display:none}.view.on{display:block}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.25}
+h1{font-size:30px;margin:0 0 6px}
+h2{font-size:24px;margin:40px 0 8px}
+h3{font-size:19px;margin:28px 0 6px}
+.eyebrow{font-family:var(--ui);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ochre);font-weight:600}
+.lede{color:var(--muted);max-width:65ch}
+p,li{max-width:68ch}
+.es{font-style:italic}
+/* Book */
+.book{display:grid;grid-template-columns:230px 1fr;gap:32px}
+.toc{position:sticky;top:84px;align-self:start;font-family:var(--ui);font-size:14px;max-height:calc(100vh - 100px);overflow:auto}
+.toc ol{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:2px}
+.toc a{text-decoration:none;display:block;padding:4px 8px;border-left:3px solid transparent}
+.toc a:hover{border-left-color:var(--ochre)}
+.toc .n{color:var(--ochre);font-variant-numeric:tabular-nums;display:inline-block;width:22px}
+.chapter{scroll-margin-top:90px;background:var(--sheet);border:1px solid var(--rule);padding:28px 32px;margin-bottom:28px}
+.chapter > h2:first-of-type{margin-top:4px;border-bottom:1px solid var(--ochre);padding-bottom:8px}
+.box{border:1px solid var(--rule);border-left:4px solid var(--ochre);background:var(--ochre-soft);padding:12px 16px;margin:16px 0;max-width:68ch}
+.box p{margin:4px 0}
+table.g{border-collapse:collapse;font-family:var(--ui);font-size:15px;margin:12px 0;font-variant-numeric:tabular-nums}
+table.g th,table.g td{border-bottom:1px solid var(--rule);padding:5px 12px 5px 0;text-align:left;vertical-align:top}
+table.g th{font-weight:600;color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:.04em}
+table.g td.es,table.g td b{font-family:var(--body)}
+.wrap{overflow-x:auto}
+.ex{border-top:1px dashed var(--rule);margin-top:24px;padding-top:12px}
+.ex h3{margin-top:4px}
+details{margin:6px 0;font-family:var(--body)}
+details summary{cursor:pointer}
+details summary::marker{color:var(--ochre)}
+details .ans{color:var(--good);font-style:italic;margin-left:6px}
+.go{font-family:var(--ui);display:inline-flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.btn{font-family:var(--ui);border:1px solid var(--ink);background:transparent;padding:7px 14px;border-radius:3px;cursor:pointer;font-weight:500;text-decoration:none;display:inline-block}
+.btn.primary{background:var(--ink);color:var(--sheet)}
+.btn:hover{border-color:var(--ochre)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.irr{color:var(--irr);font-weight:700}
+/* Verbs */
+.controls{display:flex;gap:12px;flex-wrap:wrap;align-items:end;margin:16px 0;font-family:var(--ui)}
+.controls label{display:flex;flex-direction:column;font-size:12px;color:var(--muted);gap:3px;text-transform:uppercase;letter-spacing:.05em}
+.controls input[type=search],.controls select{padding:7px 9px;border:1px solid var(--rule);background:var(--sheet);border-radius:3px;min-width:150px}
+.sheet-wrap{overflow-x:auto;background:var(--sheet);border:1px solid var(--rule)}
+table.sheet{border-collapse:collapse;width:100%;font-family:var(--body);font-size:15.5px;font-variant-numeric:tabular-nums}
+table.sheet th{font-family:var(--ui);font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);text-align:left;padding:8px 10px;border-bottom:2px solid var(--ink);position:sticky;top:0;background:var(--sheet);white-space:nowrap}
+table.sheet td{padding:6px 10px;border-bottom:1px solid var(--rule);white-space:nowrap}
+table.sheet tr:nth-child(5n) td{border-bottom-color:var(--muted)}
+table.sheet td.v{font-weight:700}
+table.sheet td.v button{all:unset;cursor:pointer;font-weight:700;border-bottom:1px dotted var(--muted)}
+table.sheet td.gl{font-family:var(--ui);font-size:13px;color:var(--muted);white-space:normal;min-width:130px}
+.tag{font-family:var(--ui);font-size:11px;padding:1px 6px;border-radius:9px;border:1px solid var(--rule);color:var(--muted);margin-left:6px;vertical-align:2px;font-weight:500}
+.tag.irregular{border-color:var(--irr);color:var(--irr)}
+.legend{font-family:var(--ui);font-size:13px;color:var(--muted)}
+.card-dlg{border:1px solid var(--ink);background:var(--sheet);color:var(--ink);padding:0;max-width:min(980px,95vw);width:100%;border-radius:4px}
+.card-dlg::backdrop{background:rgba(10,15,25,.55)}
+.card-head{display:flex;justify-content:space-between;align-items:baseline;padding:16px 20px;border-bottom:3px double var(--rule);gap:12px;flex-wrap:wrap}
+.card-head h2{margin:0}
+.card-body{padding:16px 20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
+.tbl h4{font-family:var(--ui);font-size:13px;text-transform:uppercase;letter-spacing:.05em;margin:0 0 4px;color:var(--ochre)}
+.tbl table{border-collapse:collapse;width:100%;font-size:15px}
+.tbl td{padding:2px 0;border-bottom:1px solid var(--rule)}
+.tbl td:first-child{font-family:var(--ui);color:var(--muted);font-size:13px;width:42%}
+/* Drill */
+.drill-grid{display:grid;grid-template-columns:300px 1fr;gap:24px}
+.panel{background:var(--sheet);border:1px solid var(--rule);padding:18px}
+.panel h3{margin-top:0}
+fieldset{border:none;padding:0;margin:0 0 14px}
+legend{font-family:var(--ui);font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:6px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-family:var(--ui);font-size:14px;display:inline-flex;align-items:center;gap:5px;border:1px solid var(--rule);padding:3px 9px;border-radius:14px;cursor:pointer;user-select:none}
+.chip input{margin:0;accent-color:var(--ink)}
+.chip:has(input:checked){border-color:var(--ink);background:var(--ochre-soft)}
+.stage{background:var(--sheet);border:1px solid var(--rule);padding:28px;min-height:360px;display:flex;flex-direction:column;gap:16px}
+.stats{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--ui);font-size:14px;color:var(--muted);border-bottom:1px solid var(--rule);padding-bottom:10px}
+.stats b{color:var(--ink);font-variant-numeric:tabular-nums;font-size:16px}
+.prompt{font-family:var(--ui);font-size:15px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.big{font-family:var(--display);font-size:40px;line-height:1.15;margin:0}
+.big small{font-family:var(--ui);font-size:16px;color:var(--muted);display:block;margin-top:6px;font-style:normal}
+.person{font-family:var(--display);font-size:22px}
+.answer-row{display:flex;gap:8px;flex-wrap:wrap}
+.answer-row input{flex:1;min-width:200px;font-family:var(--body);font-size:24px;padding:10px 12px;border:2px solid var(--ink);background:var(--paper);border-radius:3px}
+.accents{display:flex;gap:4px;flex-wrap:wrap}
+.accents button{font-family:var(--body);font-size:18px;width:38px;height:38px;border:1px solid var(--rule);background:var(--paper);border-radius:3px;cursor:pointer}
+.fb{font-family:var(--body);font-size:18px;min-height:56px}
+.fb .ok{color:var(--good);font-weight:700}
+.fb .no{color:var(--bad);font-weight:700}
+.fb .row{font-family:var(--ui);font-size:14px;color:var(--muted);margin-top:4px}
+.opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.opt{font-family:var(--ui);font-size:16px;text-align:left;border:1px solid var(--ink);background:var(--paper);padding:12px 14px;border-radius:3px;cursor:pointer}
+.opt kbd{font-family:var(--mono);font-size:12px;color:var(--muted);margin-right:8px}
+.opt.right{border-color:var(--good);background:color-mix(in srgb,var(--good) 14%,var(--paper))}
+.opt.wrong{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 12%,var(--paper))}
+.timer{font-family:var(--mono);font-size:20px;color:var(--ochre)}
+.mode-tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.mode-tabs button[aria-pressed="true"]{background:var(--ink);color:var(--sheet)}
+.flash{font-family:var(--display);font-size:30px;line-height:1.3}
+.flash-back{font-family:var(--body);font-size:20px;color:var(--muted);border-top:1px solid var(--rule);padding-top:12px}
+.phr-cat{background:var(--sheet);border:1px solid var(--rule);padding:18px 22px;margin-bottom:18px}
+.phr-cat h2{margin:0 0 8px;font-size:20px}
+.phr{display:grid;grid-template-columns:1fr 1fr;gap:4px 24px;border-bottom:1px solid var(--rule);padding:6px 0}
+.phr .s{font-family:var(--body);font-weight:700}
+.phr .e{font-family:var(--ui);color:var(--muted)}
+.note{font-family:var(--ui);font-size:13px;color:var(--muted)}
+@media (max-width:800px){
+  .book,.drill-grid{grid-template-columns:1fr}
+  .toc{position:static;max-height:none}
+  .chapter{padding:20px 18px}
+  .big{font-size:32px}
+  .phr{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media print{
+  header.top,.controls,.toc,.go,.ex,#v-drill,#v-phrases .go{display:none!important}
+  body{background:#fff;color:#000;font-size:11pt}
+  .view{display:none!important}.view.on{display:block!important}
+  .chapter,.sheet-wrap{border:none}
+  table.sheet{font-size:9pt}
+  table.sheet th{position:static}
+  .irr{color:#000;text-decoration:underline}
+}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+  <div class="brand">Spanish in the Present<small>Textbook · verb sheet · drills</small></div>
+  <nav class="tabs" aria-label="Sections">
+    <a href="#book" data-tab="book">Book</a>
+    <a href="#verbs" data-tab="verbs">Verb sheet</a>
+    <a href="#drill" data-tab="drill">Drills</a>
+    <a href="#phrases" data-tab="phrases">Phrases</a>
+  </nav>
+</div></header>
+
+<main>
+<!-- ============================ BOOK ============================ -->
+<section class="view" id="v-book">
+<div class="book">
+<aside class="toc" aria-label="Chapters"><ol id="toc"></ol></aside>
+<div id="chapters">
+
+<article class="chapter" id="ch0" data-title="How to use this book">
+<div class="eyebrow">Introduction</div>
+<h2>How to use this book</h2>
+<p>This book is for people who already catch a third to half of what they hear and want the rest, fast. You don't need another course that starts with colours and greetings. You need the verb system to stop being a blur, and you need the words people actually say.</p>
+<p>Each study session has three steps, about 25 minutes in all:</p>
+<ol>
+<li><b>Read one chapter</b> (10 min). Read the Spanish examples out loud. Do the <i>Check yourself</i> questions at the end before opening the answers.</li>
+<li><b>Look at the verb sheet</b> for the tense you just read (5 min). Red forms break the regular pattern. Say a few rows aloud.</li>
+<li><b>Drill</b> (10 min). Five minutes of <i>Recognize</i> (hear-it, know-it) and five of <i>Produce</i> (type it). The drill keeps track of what you miss and brings it back sooner.</li>
+</ol>
+<div class="box">
+<p><b>Why both drills.</b> Recognition is what lets you follow a conversation: when you hear <span class="es">supieron</span> you need to know instantly that it means "they found out." Production is what lets you answer. Most of your gap is probably recognition, so don't skip it.</p>
+</div>
+<p><b>Suggested order.</b> Week 1: chapters 1–2 and 10. Week 2: chapters 3–5. Week 3: chapters 6–7 and 11. Week 4: chapters 8–9 and 12. After that, keep drilling daily and reread a chapter whenever a tense feels shaky. Short daily sessions beat long weekend ones because spaced repetition only works if you come back.</p>
+<p><b>About the Spanish here.</b> It is Latin American: <span class="es">ustedes</span> for every plural "you," and no <span class="es">vosotros</span>. Chapter 11 covers how coastal and Caribbean speech (including Panama) differs from the textbook, and chapter 12 covers the differences from Spain and from the <span class="es">vos</span> countries.</p>
+</article>
+
+<article class="chapter" id="ch1" data-title="The present tense">
+<div class="eyebrow">Chapter 1</div>
+<h2>The present tense</h2>
+<p>The present does more work in Spanish than in English. <span class="es">Hablo</span> is "I speak," "I'm speaking," and often "I'll speak" (<span class="es">Mañana te llamo</span> — I'll call you tomorrow). It also makes offers: <span class="es">¿Te ayudo?</span> — Shall I help you?</p>
+<h3>Regular endings</h3>
+<div class="wrap"><table class="g">
+<tr><th></th><th>-ar (hablar)</th><th>-er (comer)</th><th>-ir (vivir)</th></tr>
+<tr><td>yo</td><td><b>hablo</b></td><td><b>como</b></td><td><b>vivo</b></td></tr>
+<tr><td>tú</td><td><b>hablas</b></td><td><b>comes</b></td><td><b>vives</b></td></tr>
+<tr><td>él / ella / usted</td><td><b>habla</b></td><td><b>come</b></td><td><b>vive</b></td></tr>
+<tr><td>nosotros</td><td><b>hablamos</b></td><td><b>comemos</b></td><td><b>vivimos</b></td></tr>
+<tr><td>ellos / ustedes</td><td><b>hablan</b></td><td><b>comen</b></td><td><b>viven</b></td></tr>
+</table></div>
+<p>-er and -ir verbs differ only in the <span class="es">nosotros</span> form.</p>
+<h3>Irregularity type 1: stem changes ("boot verbs")</h3>
+<p>The stressed vowel of the stem changes in every form except <span class="es">nosotros</span>. Draw a line around yo, tú, él, ellos on the table and it looks like a boot.</p>
+<div class="wrap"><table class="g">
+<tr><th>Change</th><th>Example</th><th>Others you'll hear daily</th></tr>
+<tr><td>e → ie</td><td><b>quiero</b>, quieres, quiere, queremos, quieren</td><td>pensar, empezar, entender, perder, sentir, cerrar, comenzar</td></tr>
+<tr><td>o → ue</td><td><b>puedo</b>, puedes, puede, podemos, pueden</td><td>volver, encontrar, contar, recordar, dormir, costar, mostrar, mover</td></tr>
+<tr><td>u → ue</td><td><b>juego</b>, juegas, juega, jugamos, juegan</td><td>(only jugar)</td></tr>
+<tr><td>e → i (-ir only)</td><td><b>pido</b>, pides, pide, pedimos, piden</td><td>seguir, servir, repetir, medir, elegir, conseguir</td></tr>
+</table></div>
+<h3>Irregularity type 2: the <span class="es">yo</span> form only</h3>
+<p>These are regular except for "I." Learn them as a set because the same <span class="es">yo</span> form becomes the base of the subjunctive (chapter 7).</p>
+<div class="wrap"><table class="g">
+<tr><th>Pattern</th><th>Forms</th></tr>
+<tr><td>-go</td><td><b>tengo</b>, <b>vengo</b>, <b>pongo</b>, <b>salgo</b>, <b>hago</b>, <b>digo</b>, <b>traigo</b>, <b>caigo</b>, <b>oigo</b>, <b>valgo</b></td></tr>
+<tr><td>-zco</td><td><b>conozco</b>, <b>conduzco</b>, <b>ofrezco</b>, <b>parezco</b>, <b>traduzco</b>, <b>produzco</b>, <b>reconozco</b></td></tr>
+<tr><td>Odd ones</td><td><b>sé</b> (saber), <b>quepo</b> (caber), <b>doy</b> (dar), <b>veo</b> (ver), <b>estoy</b> (estar)</td></tr>
+</table></div>
+<p>Note that <span class="es">tener, venir, decir</span> are also boot verbs: tengo, <b>tienes</b>, <b>tiene</b>; digo, <b>dices</b>, <b>dice</b>.</p>
+<h3>Irregularity type 3: the big four</h3>
+<div class="wrap"><table class="g">
+<tr><th></th><th>ser</th><th>estar</th><th>ir</th><th>haber</th></tr>
+<tr><td>yo</td><td>soy</td><td>estoy</td><td>voy</td><td>he</td></tr>
+<tr><td>tú</td><td>eres</td><td>estás</td><td>vas</td><td>has</td></tr>
+<tr><td>él / usted</td><td>es</td><td>está</td><td>va</td><td>ha (hay = there is)</td></tr>
+<tr><td>nosotros</td><td>somos</td><td>estamos</td><td>vamos</td><td>hemos</td></tr>
+<tr><td>ellos / ustedes</td><td>son</td><td>están</td><td>van</td><td>han</td></tr>
+</table></div>
+<h3>Three present-tense patterns worth stealing</h3>
+<ul>
+<li><b>ir a + infinitive</b> is the everyday future. <span class="es">Voy a firmar el lunes.</span> — I'm going to sign on Monday.</li>
+<li><b>acabar de + infinitive</b> = "to have just." <span class="es">Acabo de llegar.</span> — I just arrived.</li>
+<li><b>hace + time + que + present</b> = "have been doing for." <span class="es">Hace dos años que vivo aquí.</span> — I've lived here for two years.</li>
+</ul>
+<div class="ex"><h3>Check yourself</h3>
+<details><summary>We can (poder)</summary><span class="ans">podemos (no stem change in nosotros)</span></details>
+<details><summary>I know her (conocer)</summary><span class="ans">la conozco</span></details>
+<details><summary>They ask for the bill (pedir)</summary><span class="ans">piden la cuenta</span></details>
+<details><summary>I'm leaving now (salir)</summary><span class="ans">salgo ahora</span></details>
+<details><summary>Translate: <span class="es">Hace un mes que lo busco.</span></summary><span class="ans">I've been looking for it for a month.</span></details>
+</div>
+<div class="go"><a class="btn" href="#verbs" data-sheet="pres">Present on the verb sheet</a><a class="btn primary" href="#drill" data-drill="pres">Drill the present</a></div>
+</article>
+
+<article class="chapter" id="ch2" data-title="Ser, estar and hay">
+<div class="eyebrow">Chapter 2</div>
+<h2>Ser, estar and hay</h2>
+<p>Both mean "to be." The rule of thumb: <b>ser</b> says what something <i>is</i>; <b>estar</b> says how or where it is <i>right now</i> or as a result of something.</p>
+<div class="wrap"><table class="g">
+<tr><th>Ser</th><th>Estar</th></tr>
+<tr><td>identity, profession: <span class="es">Es abogado.</span></td><td>location: <span class="es">El terreno está cerca del río.</span></td></tr>
+<tr><td>origin: <span class="es">Somos de Florida.</span></td><td>condition: <span class="es">Estoy cansado.</span></td></tr>
+<tr><td>traits: <span class="es">La casa es grande.</span></td><td>result of a change: <span class="es">La puerta está cerrada.</span></td></tr>
+<tr><td>time and dates: <span class="es">Son las tres.</span></td><td>-ing forms: <span class="es">Estamos negociando.</span></td></tr>
+<tr><td>where an <i>event</i> takes place: <span class="es">La reunión es en la notaría.</span></td><td>opinion of a specific instance: <span class="es">¡La comida está rica!</span></td></tr>
+</table></div>
+<h3>Same adjective, different meaning</h3>
+<div class="wrap"><table class="g">
+<tr><th></th><th>with ser</th><th>with estar</th></tr>
+<tr><td>listo</td><td>clever</td><td>ready</td></tr>
+<tr><td>aburrido</td><td>boring</td><td>bored</td></tr>
+<tr><td>rico</td><td>rich</td><td>delicious</td></tr>
+<tr><td>malo</td><td>bad (character)</td><td>sick / gone bad</td></tr>
+<tr><td>seguro</td><td>safe</td><td>sure, certain</td></tr>
+</table></div>
+<h3>Hay: there is, there are</h3>
+<p><b>Hay</b> comes from <span class="es">haber</span> and never changes for singular or plural: <span class="es">hay un problema</span>, <span class="es">hay dos problemas</span>. In other tenses: <span class="es">había</span> (there was / were, background), <span class="es">hubo</span> (there was, an event), <span class="es">habrá</span> (there will be), <span class="es">habría</span> (there would be). <span class="es">Hay que</span> + infinitive means "one has to": <span class="es">Hay que pagar el saldo.</span></p>
+<div class="ex"><h3>Check yourself: ser or estar?</h3>
+<details><summary>The lawyer ___ in his office.</summary><span class="ans">está (location)</span></details>
+<details><summary>The meeting ___ at ten.</summary><span class="ans">es (time of an event)</span></details>
+<details><summary>We ___ ready to sign.</summary><span class="ans">estamos listos</span></details>
+<details><summary>The plot ___ very flat.</summary><span class="ans">es (a trait of the land)</span></details>
+</div>
+<div class="go"><a class="btn" href="#verbs" data-sheet="pres">See ser and estar</a></div>
+</article>
+
+<article class="chapter" id="ch3" data-title="The preterite">
+<div class="eyebrow">Chapter 3</div>
+<h2>The preterite: what happened</h2>
+<p>The preterite reports completed events: <i>I signed, she called, they paid</i>. In Latin American speech it also covers most of what English says with "have done": <span class="es">¿Ya comiste?</span> — Have you eaten yet?</p>
+<h3>Regular endings</h3>
+<div class="wrap"><table class="g">
+<tr><th></th><th>-ar (hablar)</th><th>-er / -ir (comer, vivir)</th></tr>
+<tr><td>yo</td><td>hablé</td><td>comí, viví</td></tr>
+<tr><td>tú</td><td>hablaste</td><td>comiste, viviste</td></tr>
+<tr><td>él / usted</td><td>habló</td><td>comió, vivió</td></tr>
+<tr><td>nosotros</td><td>hablamos</td><td>comimos, vivimos</td></tr>
+<tr><td>ellos / ustedes</td><td>hablaron</td><td>comieron, vivieron</td></tr>
+</table></div>
+<div class="box"><p><b>Listening tip.</b> The stress on the last syllable is the giveaway: <span class="es">habló</span> (he spoke) vs. <span class="es">hablo</span> (I speak). Train your ear for that final stressed <i>-ó</i>.</p></div>
+<h3>Small regular changes</h3>
+<ul>
+<li><b>Spelling, yo only:</b> -car → qué (<span class="es">busqué, saqué, toqué</span>), -gar → gué (<span class="es">llegué, pagué, jugué</span>), -zar → cé (<span class="es">empecé, alcancé</span>).</li>
+<li><b>-ir stem changers change in él and ellos:</b> <span class="es">pidió, pidieron; durmió, durmieron; sintió; siguió; murió</span>.</li>
+<li><b>i → y between vowels:</b> <span class="es">leyó, creyó, oyó, cayó, construyó</span>.</li>
+</ul>
+<h3>The irregular "strong" preterites</h3>
+<p>These share one set of endings, with no written accents: <b>-e, -iste, -o, -imos, -ieron</b>. Learn the stem and the whole tense follows.</p>
+<div class="wrap"><table class="g">
+<tr><th>Verb</th><th>Stem</th><th>yo / él</th><th>Verb</th><th>Stem</th><th>yo / él</th></tr>
+<tr><td>tener</td><td>tuv-</td><td>tuve / tuvo</td><td>poner</td><td>pus-</td><td>puse / puso</td></tr>
+<tr><td>estar</td><td>estuv-</td><td>estuve / estuvo</td><td>saber</td><td>sup-</td><td>supe / supo</td></tr>
+<tr><td>andar</td><td>anduv-</td><td>anduve / anduvo</td><td>caber</td><td>cup-</td><td>cupe / cupo</td></tr>
+<tr><td>poder</td><td>pud-</td><td>pude / pudo</td><td>querer</td><td>quis-</td><td>quise / quiso</td></tr>
+<tr><td>venir</td><td>vin-</td><td>vine / vino</td><td>hacer</td><td>hic-</td><td>hice / <b>hizo</b></td></tr>
+<tr><td>haber</td><td>hub-</td><td>hube / hubo</td><td></td><td></td><td></td></tr>
+</table></div>
+<p><b>J-stems</b> drop the <i>i</i> in the ellos form: <span class="es">dije … dijeron; traje … trajeron; conduje … condujeron; traduje … tradujeron; produje … produjeron</span>.</p>
+<p><b>Four oddballs:</b> <span class="es">ser</span> and <span class="es">ir</span> share one preterite (<span class="es">fui, fuiste, fue, fuimos, fueron</span>; context tells you which). <span class="es">Dar</span>: di, diste, dio, dimos, dieron. <span class="es">Ver</span>: vi, viste, vio, vimos, vieron.</p>
+<h3>Verbs that change meaning in the preterite</h3>
+<div class="wrap"><table class="g">
+<tr><th>Verb</th><th>Preterite</th><th>Means</th></tr>
+<tr><td>saber</td><td>supe</td><td>I found out</td></tr>
+<tr><td>conocer</td><td>conocí</td><td>I met (for the first time)</td></tr>
+<tr><td>poder</td><td>pude / no pude</td><td>I managed to / I failed to</td></tr>
+<tr><td>querer</td><td>quise / no quise</td><td>I tried to / I refused</td></tr>
+<tr><td>tener</td><td>tuve</td><td>I got, received</td></tr>
+</table></div>
+<div class="ex"><h3>Check yourself</h3>
+<details><summary>I paid (pagar)</summary><span class="ans">pagué</span></details>
+<details><summary>She asked for (pedir)</summary><span class="ans">pidió</span></details>
+<details><summary>They said (decir)</summary><span class="ans">dijeron (no -ieron after j)</span></details>
+<details><summary>We had to (tener que)</summary><span class="ans">tuvimos que</span></details>
+<details><summary>Translate: <span class="es">No pude encontrar al agrimensor.</span></summary><span class="ans">I couldn't (failed to) find the surveyor.</span></details>
+</div>
+<div class="go"><a class="btn" href="#verbs" data-sheet="pret">Preterite on the verb sheet</a><a class="btn primary" href="#drill" data-drill="pret">Drill the preterite</a></div>
+</article>
+
+<article class="chapter" id="ch4" data-title="Imperfect vs. preterite">
+<div class="eyebrow">Chapter 4</div>
+<h2>The imperfect, and choosing between the two pasts</h2>
+<p>The imperfect describes the past as an ongoing scene: what <i>was happening</i>, what <i>used to</i> happen, how things <i>were</i>. It is the easiest tense in Spanish.</p>
+<div class="wrap"><table class="g">
+<tr><th></th><th>-ar (hablar)</th><th>-er / -ir (comer, vivir)</th></tr>
+<tr><td>yo</td><td>hablaba</td><td>comía</td></tr>
+<tr><td>tú</td><td>hablabas</td><td>comías</td></tr>
+<tr><td>él / usted</td><td>hablaba</td><td>comía</td></tr>
+<tr><td>nosotros</td><td>hablábamos</td><td>comíamos</td></tr>
+<tr><td>ellos / ustedes</td><td>hablaban</td><td>comían</td></tr>
+</table></div>
+<p>Only three irregulars: <b>ser</b> (era, eras, era, éramos, eran), <b>ir</b> (iba, ibas, iba, íbamos, iban), <b>ver</b> (veía…).</p>
+<h3>The film-set rule</h3>
+<p>Think of a scene in a film. The <b>imperfect</b> is the set and the background action: the weather, the time, what people were doing, how they felt. The <b>preterite</b> is what happens on screen: the events that move the story forward.</p>
+<div class="box">
+<p class="es">Eran las cinco y llovía. Estábamos en la oficina del abogado y esperábamos los papeles. De repente <b>sonó</b> el teléfono. Carlos <b>dijo</b> que no <b>podía</b> venir.</p>
+<p>It was five and it was raining (scene). We were at the lawyer's office waiting (scene). Suddenly the phone rang (event). Carlos said (event) he couldn't come (his situation: imperfect).</p>
+</div>
+<div class="wrap"><table class="g">
+<tr><th>Imperfect</th><th>Preterite</th></tr>
+<tr><td>background, description</td><td>events, completed actions</td></tr>
+<tr><td>habits: "used to," "would"</td><td>a specific number of times</td></tr>
+<tr><td>time and age: <span class="es">Tenía 30 años.</span></td><td>a sequence: first, then, after</td></tr>
+<tr><td>signals: siempre, cada día, de niño, mientras, normalmente</td><td>signals: ayer, de repente, una vez, el lunes, anoche</td></tr>
+</table></div>
+<div class="box"><p><b>Listening tip.</b> <i>-aba</i> and <i>-ía</i> mean scene-setting. When you hear them, the speaker is giving context; the point of the story is coming in the preterite.</p></div>
+<div class="ex"><h3>Check yourself: imperfect or preterite?</h3>
+<details><summary>When I was young, I lived (vivir) in Ohio.</summary><span class="ans">vivía (background)</span></details>
+<details><summary>Yesterday I signed (firmar) the contract.</summary><span class="ans">firmé (event)</span></details>
+<details><summary>We were talking (hablar) when he arrived (llegar).</summary><span class="ans">hablábamos … llegó</span></details>
+<details><summary>Every summer they went (ir) to Peru.</summary><span class="ans">iban (habit)</span></details>
+</div>
+<div class="go"><a class="btn" href="#verbs" data-sheet="imp">Imperfect on the verb sheet</a><a class="btn primary" href="#drill" data-drill="imp,pret">Drill both pasts</a></div>
+</article>
+
+<article class="chapter" id="ch5" data-title="Perfect tenses">
+<div class="eyebrow">Chapter 5</div>
+<h2>The perfect tenses: haber + participle</h2>
+<p>Exactly as in English: "I have spoken" = <span class="es">he hablado</span>; "I had spoken" = <span class="es">había hablado</span>. The participle never changes.</p>
+<div class="wrap"><table class="g">
+<tr><th></th><th>Present perfect</th><th>Pluperfect</th></tr>
+<tr><td>yo</td><td>he</td><td>había</td></tr>
+<tr><td>tú</td><td>has</td><td>habías</td></tr>
+<tr><td>él / usted</td><td>ha</td><td>había</td></tr>
+<tr><td>nosotros</td><td>hemos</td><td>habíamos</td></tr>
+<tr><td>ellos / ustedes</td><td>han</td><td>habían</td></tr>
+<tr><td colspan="3">+ <b>-ado</b> (-ar verbs) or <b>-ido</b> (-er, -ir): hablado, comido, vivido</td></tr>
+</table></div>
+<h3>Irregular participles</h3>
+<p><span class="es">abierto</span> (abrir), <span class="es">dicho</span> (decir), <span class="es">escrito</span> (escribir), <span class="es">hecho</span> (hacer), <span class="es">muerto</span> (morir), <span class="es">puesto</span> (poner), <span class="es">roto</span> (romper), <span class="es">visto</span> (ver), <span class="es">vuelto</span> (volver), <span class="es">cubierto</span> (cubrir), <span class="es">descubierto</span> (descubrir), <span class="es">resuelto</span> (resolver), <span class="es">supuesto</span> (suponer). Compounds follow their base: <span class="es">devuelto, propuesto, deshecho</span>.</p>
+<div class="box"><p><b>Regional note.</b> Spain uses the present perfect for anything today. Most of Latin America prefers the preterite: <span class="es">Hoy hablé con él</span> rather than <span class="es">Hoy he hablado con él</span>. You'll hear the perfect most for life experience: <span class="es">¿Has estado en Bocas?</span></p></div>
+<p>Participles also work as adjectives and agree: <span class="es">la puerta está abierta</span>, <span class="es">los papeles están firmados</span>.</p>
+<div class="ex"><h3>Check yourself</h3>
+<details><summary>Have you (tú) seen the plan?</summary><span class="ans">¿Has visto el plano?</span></details>
+<details><summary>They had already done it.</summary><span class="ans">Ya lo habían hecho.</span></details>
+<details><summary>We have written to the lawyer.</summary><span class="ans">Le hemos escrito al abogado.</span></details>
+</div>
+<div class="go"><a class="btn" href="#verbs" data-sheet="perf">Perfect on the verb sheet</a><a class="btn primary" href="#drill" data-drill="perf">Drill the perfect</a></div>
+</article>
+
+<article class="chapter" id="ch6" data-title="Future and conditional">
+<div class="eyebrow">Chapter 6</div>
+<h2>The future and the conditional</h2>
+<p>Both are built on the whole infinitive, with one set of endings for all three verb groups.</p>
+<div class="wrap"><table class="g">
+<tr><th></th><th>Future (will)</th><th>Conditional (would)</th></tr>
+<tr><td>yo</td><td>hablar<b>é</b></td><td>hablar<b>ía</b></td></tr>
+<tr><td>tú</td><td>hablar<b>ás</b></td><td>hablar<b>ías</b></td></tr>
+<tr><td>él / usted</td><td>hablar<b>á</b></td><td>hablar<b>ía</b></td></tr>
+<tr><td>nosotros</td><td>hablar<b>emos</b></td><td>hablar<b>íamos</b></td></tr>
+<tr><td>ellos / ustedes</td><td>hablar<b>án</b></td><td>hablar<b>ían</b></td></tr>
+</table></div>
+<h3>The twelve irregular stems (same for both tenses)</h3>
+<div class="wrap"><table class="g">
+<tr><th>Drop the vowel</th><th>Vowel becomes d</th><th>Short forms</th></tr>
+<tr><td>poder → <b>podr</b>é<br>saber → <b>sabr</b>é<br>caber → <b>cabr</b>é<br>haber → <b>habr</b>á<br>querer → <b>querr</b>é</td>
+<td>tener → <b>tendr</b>é<br>poner → <b>pondr</b>é<br>salir → <b>saldr</b>é<br>venir → <b>vendr</b>é<br>valer → <b>valdr</b>á</td>
+<td>hacer → <b>har</b>é<br>decir → <b>dir</b>é</td></tr>
+</table></div>
+<h3>How they are really used</h3>
+<ul>
+<li>For plain future plans, speech mostly uses <b>ir a</b>: <span class="es">Vamos a ver.</span> The future tense sounds more formal or more certain: <span class="es">Te lo enviaré mañana.</span></li>
+<li><b>Future of probability</b> — very common, often confusing: <span class="es">¿Dónde estará Ana?</span> = I wonder where Ana is. <span class="es">Serán las diez.</span> = It's probably ten.</li>
+<li><b>The conditional is the polite form</b>: <span class="es">¿Podría ayudarme?</span> Could you help me? <span class="es">Me gustaría ver el título.</span> I'd like to see the title.</li>
+<li>Conditional of probability in the past: <span class="es">Serían las diez cuando llegó.</span> It must have been about ten when he arrived.</li>
+</ul>
+<div class="ex"><h3>Check yourself</h3>
+<details><summary>We will have (tener) time.</summary><span class="ans">tendremos</span></details>
+<details><summary>Would you (usted) say (decir) that?</summary><span class="ans">¿Diría eso?</span></details>
+<details><summary>Translate: <span class="es">¿Qué hora será?</span></summary><span class="ans">I wonder what time it is.</span></details>
+</div>
+<div class="go"><a class="btn" href="#verbs" data-sheet="fut">Future on the verb sheet</a><a class="btn primary" href="#drill" data-drill="fut,cond">Drill future and conditional</a></div>
+</article>
+
+<article class="chapter" id="ch7" data-title="The present subjunctive">
+<div class="eyebrow">Chapter 7</div>
+<h2>The present subjunctive</h2>
+<p>The subjunctive is a verb form for things that aren't stated as fact: wishes, requests, feelings, doubts, and events that haven't happened yet. You can't avoid it. It's in <span class="es">que te vaya bien</span>, <span class="es">cuando puedas</span>, <span class="es">como quieras</span>, and every polite request.</p>
+<h3>How to form it: take yo, swap the vowel</h3>
+<ol>
+<li>Start from the <span class="es">yo</span> present: <span class="es">tengo, hablo, pido, conozco</span>.</li>
+<li>Drop the -o.</li>
+<li>-ar verbs take <b>-e</b> endings; -er and -ir verbs take <b>-a</b> endings.</li>
+</ol>
+<div class="wrap"><table class="g">
+<tr><th></th><th>hablar</th><th>tener</th><th>pedir</th></tr>
+<tr><td>yo</td><td>hable</td><td>tenga</td><td>pida</td></tr>
+<tr><td>tú</td><td>hables</td><td>tengas</td><td>pidas</td></tr>
+<tr><td>él / usted</td><td>hable</td><td>tenga</td><td>pida</td></tr>
+<tr><td>nosotros</td><td>hablemos</td><td>tengamos</td><td>pidamos</td></tr>
+<tr><td>ellos / ustedes</td><td>hablen</td><td>tengan</td><td>pidan</td></tr>
+</table></div>
+<p>Because it starts from <span class="es">yo</span>, all the -go and -zco verbs carry over: <span class="es">haga, diga, salga, ponga, venga, conozca, conduzca</span>. -ir stem changers also change in <span class="es">nosotros</span>: <span class="es">pidamos, durmamos, sintamos</span>.</p>
+<p><b>Six true irregulars:</b> <span class="es">dar → dé, ir → vaya, ser → sea, haber → haya, estar → esté, saber → sepa</span>.</p>
+<h3>When to use it</h3>
+<p>The structure is almost always: <i>trigger</i> + <b>que</b> + <i>different subject</i> + subjunctive. <span class="es">Quiero que <b>vengas</b>.</span> I want you to come. With the same subject you use the infinitive: <span class="es">Quiero venir.</span></p>
+<div class="wrap"><table class="g">
+<tr><th>Trigger type</th><th>Examples</th></tr>
+<tr><td>Wanting, hoping</td><td>quiero que, espero que, ojalá (que), prefiero que</td></tr>
+<tr><td>Asking, advising</td><td>te pido que, le recomiendo que, es mejor que, necesito que</td></tr>
+<tr><td>Feelings</td><td>me alegra que, siento que, me preocupa que, qué bueno que</td></tr>
+<tr><td>Doubt, denial</td><td>dudo que, no creo que, no es cierto que, es posible que</td></tr>
+<tr><td>Necessity</td><td>es importante que, es necesario que, hace falta que</td></tr>
+<tr><td>Purpose, not-yet</td><td>para que, antes de que, sin que, hasta que, en cuanto, <b>cuando</b> (future)</td></tr>
+</table></div>
+<div class="box"><p><b>The <span class="es">cuando</span> trap.</b> <span class="es">Cuando llego, te llamo</span> is a habit (whenever I arrive). <span class="es">Cuando llegue, te llamo</span> is a single future event (when I get there). In conversation about plans you'll almost always hear the subjunctive.</p></div>
+<h3>Ready-made chunks</h3>
+<p><span class="es">Que te vaya bien</span> (hope it goes well) · <span class="es">Cuando puedas</span> (whenever you can) · <span class="es">Como quieras</span> (as you like) · <span class="es">Lo que sea</span> (whatever) · <span class="es">Ojalá que sí</span> (I hope so) · <span class="es">No creo que sea así</span> (I don't think that's how it is) · <span class="es">Avísame cuando sepas algo</span> (let me know when you hear something).</p>
+<div class="ex"><h3>Check yourself</h3>
+<details><summary>I hope that you (tú) have (tener) a good trip.</summary><span class="ans">Espero que tengas un buen viaje.</span></details>
+<details><summary>It's important that we sign (firmar) today.</summary><span class="ans">Es importante que firmemos hoy.</span></details>
+<details><summary>Call me when you know (saber).</summary><span class="ans">Llámame cuando sepas.</span></details>
+<details><summary>I don't think he is (estar) here.</summary><span class="ans">No creo que esté aquí.</span></details>
+</div>
+<div class="go"><a class="btn" href="#verbs" data-sheet="subj">Subjunctive on the verb sheet</a><a class="btn primary" href="#drill" data-drill="subj">Drill the subjunctive</a></div>
+</article>
+
+<article class="chapter" id="ch8" data-title="Past subjunctive and 'if'">
+<div class="eyebrow">Chapter 8</div>
+<h2>The imperfect subjunctive and "if" sentences</h2>
+<h3>Formation: from the ellos preterite</h3>
+<p>Take the <span class="es">ellos</span> preterite, drop <b>-ron</b>, add <b>-ra, -ras, -ra, -ramos, -ran</b> (with an accent on the nosotros form). Every irregular preterite carries over automatically.</p>
+<div class="wrap"><table class="g">
+<tr><th>Infinitive</th><th>ellos preterite</th><th>Imperfect subjunctive</th></tr>
+<tr><td>hablar</td><td>habla<s>ron</s></td><td>hablara, hablaras, hablara, habláramos, hablaran</td></tr>
+<tr><td>tener</td><td>tuvie<s>ron</s></td><td>tuviera, tuvieras, tuviera, tuviéramos, tuvieran</td></tr>
+<tr><td>ser / ir</td><td>fue<s>ron</s></td><td>fuera, fueras …</td></tr>
+<tr><td>decir</td><td>dije<s>ron</s></td><td>dijera, dijeras …</td></tr>
+<tr><td>pedir</td><td>pidie<s>ron</s></td><td>pidiera, pidieras …</td></tr>
+</table></div>
+<p class="note">There's a second form in -se (tuviese, hablase) used mostly in Spain and in writing. Recognize it; don't bother producing it.</p>
+<h3>Three uses</h3>
+<ul>
+<li><b>A subjunctive trigger in the past:</b> <span class="es">Quería que vinieras.</span> I wanted you to come. <span class="es">Me pidió que firmara.</span> He asked me to sign.</li>
+<li><b>Extra polite:</b> <span class="es">Quisiera hablar con el abogado.</span> I would like to speak with the lawyer.</li>
+<li><b>Hypothetical "if":</b> see below.</li>
+</ul>
+<h3>The three "if" patterns</h3>
+<div class="wrap"><table class="g">
+<tr><th>Type</th><th>si + …</th><th>result</th><th>Example</th></tr>
+<tr><td>Real</td><td>present</td><td>present / future / command</td><td class="es">Si tengo tiempo, voy.</td></tr>
+<tr><td>Hypothetical</td><td>imperfect subjunctive</td><td>conditional</td><td class="es">Si tuviera tiempo, iría.</td></tr>
+<tr><td>Past unreal</td><td>pluperfect subjunctive (hubiera + participle)</td><td>habría + participle</td><td class="es">Si hubiera sabido, habría venido.</td></tr>
+</table></div>
+<p>In casual speech you'll often hear <span class="es">hubiera</span> on both sides: <span class="es">Si hubiera sabido, hubiera venido.</span> Both are correct.</p>
+<p><b>Como si</b> (as if) always takes the imperfect subjunctive: <span class="es">Habla como si fuera el dueño.</span> He talks as if he were the owner.</p>
+<div class="ex"><h3>Check yourself</h3>
+<details><summary>If I had (tener) more money, I would buy (comprar) the plot.</summary><span class="ans">Si tuviera más dinero, compraría el terreno.</span></details>
+<details><summary>She asked us to wait (esperar).</summary><span class="ans">Nos pidió que esperáramos.</span></details>
+<details><summary>Translate: <span class="es">Si me hubieras llamado, te habría ayudado.</span></summary><span class="ans">If you had called me, I would have helped you.</span></details>
+</div>
+<div class="go"><a class="btn" href="#verbs" data-sheet="subjimp">Past subjunctive on the verb sheet</a><a class="btn primary" href="#drill" data-drill="subjimp,cond">Drill subjunctive + conditional</a></div>
+</article>
+
+<article class="chapter" id="ch9" data-title="Commands">
+<div class="eyebrow">Chapter 9</div>
+<h2>Commands</h2>
+<h3>Tú, affirmative: use the él form</h3>
+<p><span class="es">Habla. Come. Escribe. Pide. Duerme.</span> Eight short irregulars:</p>
+<div class="wrap"><table class="g">
+<tr><td>decir → <b>di</b></td><td>hacer → <b>haz</b></td><td>ir → <b>ve</b></td><td>poner → <b>pon</b></td></tr>
+<tr><td>salir → <b>sal</b></td><td>ser → <b>sé</b></td><td>tener → <b>ten</b></td><td>venir → <b>ven</b></td></tr>
+</table></div>
+<h3>Everything else: the subjunctive</h3>
+<p>Usted, ustedes, nosotros ("let's"), and <i>all</i> negative commands are just present subjunctive forms.</p>
+<div class="wrap"><table class="g">
+<tr><th></th><th>affirmative</th><th>negative</th></tr>
+<tr><td>tú</td><td>firma</td><td>no firmes</td></tr>
+<tr><td>usted</td><td>firme</td><td>no firme</td></tr>
+<tr><td>nosotros</td><td>firmemos (let's sign)</td><td>no firmemos</td></tr>
+<tr><td>ustedes</td><td>firmen</td><td>no firmen</td></tr>
+</table></div>
+<p><span class="es">Vamos</span> is the normal way to say "let's go." <span class="es">Vamos a + infinitive</span> also means "let's": <span class="es">Vamos a ver.</span></p>
+<h3>Where the pronouns go</h3>
+<p>Affirmative commands attach pronouns to the end (add an accent to keep the stress): <span class="es">dímelo, mándemelo, siéntese</span>. Negative commands put them in front: <span class="es">no me lo digas, no se siente</span>.</p>
+<div class="box"><p><b>Usted in practice.</b> Many speakers in Central America and Colombia use <span class="es">usted</span> far more than in Spain or Mexico, including with friends and family. When someone addresses you as usted, answer the same way.</p></div>
+<div class="ex"><h3>Check yourself</h3>
+<details><summary>Tell me (tú).</summary><span class="ans">Dime.</span></details>
+<details><summary>Send it to me (usted, mandar).</summary><span class="ans">Mándemelo.</span></details>
+<details><summary>Don't worry (tú, preocuparse).</summary><span class="ans">No te preocupes.</span></details>
+<details><summary>Let's wait.</summary><span class="ans">Esperemos. / Vamos a esperar.</span></details>
+</div>
+<div class="go"><a class="btn" href="#verbs" data-sheet="cmd">Commands on the verb sheet</a><a class="btn primary" href="#drill" data-drill="cmd">Drill commands</a></div>
+</article>
+
+<article class="chapter" id="ch10" data-title="Little words: pronouns">
+<div class="eyebrow">Chapter 10</div>
+<h2>The little words: object pronouns</h2>
+<p>Much of what makes fast Spanish hard to follow is the string of one-syllable pronouns in front of the verb: <span class="es">se lo dije</span>, <span class="es">me la mandó</span>. Once these are automatic, comprehension jumps.</p>
+<div class="wrap"><table class="g">
+<tr><th></th><th>Direct (it, him, her)</th><th>Indirect (to / for someone)</th><th>Reflexive</th></tr>
+<tr><td>yo</td><td>me</td><td>me</td><td>me</td></tr>
+<tr><td>tú</td><td>te</td><td>te</td><td>te</td></tr>
+<tr><td>él / ella / usted</td><td>lo / la</td><td>le</td><td>se</td></tr>
+<tr><td>nosotros</td><td>nos</td><td>nos</td><td>nos</td></tr>
+<tr><td>ellos / ustedes</td><td>los / las</td><td>les</td><td>se</td></tr>
+</table></div>
+<ul>
+<li><b>Order:</b> indirect before direct. <span class="es">Me lo dio.</span> He gave it to me.</li>
+<li><b>le / les + lo / la becomes se:</b> <span class="es">Se lo di.</span> I gave it to him / her / you / them. Context or <span class="es">a él, a usted</span> clears it up.</li>
+<li><b>Placement:</b> before a conjugated verb (<span class="es">lo quiero</span>), or attached to an infinitive, gerund, or affirmative command (<span class="es">quiero verlo, estoy haciéndolo, hazlo</span>).</li>
+</ul>
+<h3>Gustar and its family</h3>
+<p>These verbs work backwards: the thing is the subject. <span class="es">Me gusta el terreno. Me gustan los dos terrenos.</span> Same pattern: <span class="es">me encanta</span> (I love), <span class="es">me importa</span> (it matters to me), <span class="es">me falta</span> (I'm missing), <span class="es">me queda</span> (I have left / it fits me), <span class="es">me duele</span> (it hurts), <span class="es">me parece</span> (it seems to me), <span class="es">me conviene</span> (it suits me).</p>
+<h3>Three uses of <span class="es">se</span> you'll hear constantly</h3>
+<ul>
+<li><b>Impersonal / passive:</b> <span class="es">Se vende lote.</span> Lot for sale. <span class="es">¿Cómo se dice…?</span> How do you say…?</li>
+<li><b>Accidents</b> (it happened to me): <span class="es">Se me olvidó.</span> I forgot. <span class="es">Se me cayó el teléfono.</span> I dropped my phone. <span class="es">Se nos acabó el agua.</span> We ran out of water.</li>
+<li><b>Reflexive / change of state:</b> <span class="es">Me levanto. Se fue.</span> (He left.) <span class="es">Se puso nervioso.</span> (He got nervous.)</li>
+</ul>
+<div class="ex"><h3>Check yourself</h3>
+<details><summary>Translate: <span class="es">¿Me lo puede mandar?</span></summary><span class="ans">Can you send it to me?</span></details>
+<details><summary>I already told him (it).</summary><span class="ans">Ya se lo dije.</span></details>
+<details><summary>Translate: <span class="es">Se me olvidaron los papeles.</span></summary><span class="ans">I forgot the papers.</span></details>
+</div>
+</article>
+
+<article class="chapter" id="ch11" data-title="Hearing real Spanish">
+<div class="eyebrow">Chapter 11</div>
+<h2>Hearing real Spanish</h2>
+<p>Textbook Spanish and street Spanish are the same language with different sound rules. Knowing the rules turns noise into words.</p>
+<h3>Sound changes on the coasts and in the Caribbean (including Panama)</h3>
+<ul>
+<li><b>S softens to h, or disappears</b> at the end of a syllable: <span class="es">¿Cómo ehtáh?</span> for <span class="es">¿Cómo estás?</span>; <span class="es">lah cosa</span> for <span class="es">las cosas</span>. Plural and <i>tú</i> endings vanish, so you rely on context and articles.</li>
+<li><b>D between vowels drops:</b> <span class="es">cansao</span> (cansado), <span class="es">to'</span> (todo), <span class="es">na'</span> (nada).</li>
+<li><b>Words fuse:</b> <span class="es">pa'</span> (para), <span class="es">pa'l</span> (para el), <span class="es">p'acá</span> (para acá), <span class="es">quiubo</span> (¿qué hubo?).</li>
+<li><b>R and L can swap</b> at the end of a syllable in some Caribbean speech: <span class="es">puelta</span> for puerta.</li>
+</ul>
+<h3>Fillers and connectors</h3>
+<p>These carry little meaning but signal where a sentence is going. Recognizing them frees attention for the content words.</p>
+<div class="wrap"><table class="g">
+<tr><th>Word</th><th>Roughly</th><th>Word</th><th>Roughly</th></tr>
+<tr><td class="es">pues</td><td>well, so</td><td class="es">o sea</td><td>I mean, in other words</td></tr>
+<tr><td class="es">bueno</td><td>OK, well (topic shift)</td><td class="es">es que…</td><td>the thing is… (an excuse is coming)</td></tr>
+<tr><td class="es">este…</td><td>um…</td><td class="es">a ver</td><td>let's see</td></tr>
+<tr><td class="es">entonces</td><td>so, then</td><td class="es">ya</td><td>already / OK / enough</td></tr>
+<tr><td class="es">dale</td><td>OK, go ahead</td><td class="es">igual</td><td>anyway, all the same</td></tr>
+<tr><td class="es">la verdad</td><td>honestly</td><td class="es">de hecho</td><td>in fact</td></tr>
+<tr><td class="es">por cierto</td><td>by the way</td><td class="es">en fin</td><td>anyway (wrapping up)</td></tr>
+</table></div>
+<h3>Regional words</h3>
+<div class="wrap"><table class="g">
+<tr><th>Panama</th><th></th><th>Peru</th><th></th></tr>
+<tr><td class="es">¿Qué xopá?</td><td>What's up? (¿qué pasó? reversed)</td><td class="es">chamba</td><td>work, a job</td></tr>
+<tr><td class="es">pana</td><td>buddy</td><td class="es">pata, causa</td><td>buddy</td></tr>
+<tr><td class="es">vaina</td><td>thing, stuff</td><td class="es">bacán</td><td>cool, great</td></tr>
+<tr><td class="es">¡Chuleta!</td><td>Wow! / Damn!</td><td class="es">jato</td><td>house, place</td></tr>
+<tr><td class="es">ahorita</td><td>in a bit (elastic)</td><td class="es">¿ya?</td><td>OK? / ready?</td></tr>
+</table></div>
+<div class="box"><p><b>The comprehension strategy.</b> When you lose the thread, listen for the verb ending. Even if you miss every noun, <span class="es">-aron</span> tells you <i>they did</i>, <i>-aba</i> tells you <i>background</i>, and <i>-ría</i> tells you <i>would</i>. That's enough to ask a smart follow-up question, and the Recognize drill trains exactly this.</p></div>
+<div class="go"><a class="btn" href="#phrases">Conversation phrases</a><a class="btn primary" href="#drill" data-drill="pres,pret,imp,fut,cond,subj" data-mode="recog">Recognize all tenses</a></div>
+</article>
+
+<article class="chapter" id="ch12" data-title="Latin America vs. Spain">
+<div class="eyebrow">Chapter 12</div>
+<h2>Latin America vs. Spain</h2>
+<p>The grammar is the same everywhere. The differences are in how people say "you," a handful of tense habits, pronunciation, and everyday vocabulary. This book teaches Latin American usage; this chapter is so that Spanish TV, a podcast from Madrid, or a visitor from Buenos Aires doesn't throw you.</p>
+
+<h3>"You" in the plural: ustedes vs. vosotros</h3>
+<p>All of Latin America uses <span class="es">ustedes</span> for any group of people. Spain uses <span class="es">vosotros</span> for a group of friends and keeps <span class="es">ustedes</span> for formal situations. You never need to produce vosotros forms, but you should recognize them:</p>
+<div class="wrap"><table class="g">
+<tr><th>Tense</th><th>Spain (vosotros)</th><th>Latin America (ustedes)</th></tr>
+<tr><td>Present</td><td>habláis, coméis, vivís</td><td>hablan, comen, viven</td></tr>
+<tr><td>Preterite</td><td>hablasteis, comisteis</td><td>hablaron, comieron</td></tr>
+<tr><td>Imperfect</td><td>hablabais, comíais</td><td>hablaban, comían</td></tr>
+<tr><td>Future</td><td>hablaréis</td><td>hablarán</td></tr>
+<tr><td>Subjunctive</td><td>habléis, comáis</td><td>hablen, coman</td></tr>
+<tr><td>Command</td><td>¡hablad! ¡venid! ¡sentaos!</td><td>¡hablen! ¡vengan! ¡siéntense!</td></tr>
+<tr><td>Pronoun</td><td>os (os lo digo)</td><td>les / se (se lo digo)</td></tr>
+</table></div>
+<p class="note">The giveaway is the sound <i>-áis / -éis</i> and the pronoun <i>os</i>.</p>
+
+<h3>"You" in the singular: vos</h3>
+<p>In Argentina, Uruguay, Paraguay, most of Central America (Costa Rica, Nicaragua, Honduras, El Salvador, Guatemala) and parts of Colombia, many people say <span class="es">vos</span> instead of <span class="es">tú</span>. It changes the stress of the present and the command, and almost nothing else.</p>
+<div class="wrap"><table class="g">
+<tr><th></th><th>tú</th><th>vos</th></tr>
+<tr><td>Present</td><td>hablas, tienes, puedes, eres</td><td>habl<b>ás</b>, ten<b>és</b>, pod<b>és</b>, <b>sos</b></td></tr>
+<tr><td>Command</td><td>habla, ven, di</td><td>habl<b>á</b>, ven<b>í</b>, dec<b>í</b></td></tr>
+<tr><td>Other tenses</td><td colspan="2">usually the same as tú: tuviste, tenías, tendrás</td></tr>
+</table></div>
+<p>Note that vos present forms have no stem change: <span class="es">podés</span>, not <span class="es">puedes</span>; <span class="es">querés</span>, not <span class="es">quieres</span>. Object and possessive forms stay the tú ones: <span class="es">vos te llamás, ¿es tu casa?</span></p>
+
+<h3>Tense habits</h3>
+<ul>
+<li><b>Recent past.</b> Spain: <span class="es">Hoy he hablado con él.</span> Latin America: <span class="es">Hoy hablé con él.</span> (See chapter 5.)</li>
+<li><b>Ahorita</b> and other diminutives (<span class="es">cafecito, un ratito, cerquita</span>) are everywhere in Latin America and rare in Spain.</li>
+<li><b>Usted</b> is used more widely in much of Latin America, including in some families. Spain uses tú with almost everyone under retirement age.</li>
+</ul>
+
+<h3>Pronunciation</h3>
+<ul>
+<li><b>Z and soft C.</b> Most of Spain says <span class="es">gracias</span> and <span class="es">cerveza</span> with a "th" sound. All of Latin America uses an "s" sound. Same words, so don't let the lisp-like sound confuse you.</li>
+<li><b>J and G.</b> In Spain the <i>j</i> is a raspy throat sound; in the Caribbean and Central America it's often a soft breathy <i>h</i>.</li>
+<li><b>LL and Y.</b> In Argentina and Uruguay they sound like "sh" or "zh": <span class="es">calle</span> ≈ "cashe," <span class="es">yo</span> ≈ "sho."</li>
+<li><b>Dropped s.</b> Southern Spain (Andalusia, the Canary Islands) drops final s much as the Caribbean does (chapter 11).</li>
+</ul>
+
+<h3>Everyday vocabulary</h3>
+<p>Where Latin America varies, the most widespread word is listed first.</p>
+<div class="wrap"><table class="g">
+<tr><th>English</th><th>Spain</th><th>Latin America</th></tr>
+<tr><td>car</td><td>coche</td><td>carro; auto (Southern Cone, Chile)</td></tr>
+<tr><td>to drive</td><td>conducir</td><td>manejar</td></tr>
+<tr><td>cell phone</td><td>móvil</td><td>celular</td></tr>
+<tr><td>computer</td><td>ordenador</td><td>computadora</td></tr>
+<tr><td>apartment</td><td>piso</td><td>apartamento; departamento (Mexico, Peru, Argentina)</td></tr>
+<tr><td>to rent</td><td>alquilar</td><td>alquilar; rentar (Mexico)</td></tr>
+<tr><td>bus</td><td>autobús</td><td>bus; camión (Mexico); guagua (Caribbean)</td></tr>
+<tr><td>ticket</td><td>billete</td><td>boleto, pasaje</td></tr>
+<tr><td>money (slang)</td><td>pasta</td><td>plata</td></tr>
+<tr><td>juice</td><td>zumo</td><td>jugo</td></tr>
+<tr><td>potato</td><td>patata</td><td>papa</td></tr>
+<tr><td>avocado</td><td>aguacate</td><td>aguacate; palta (Peru, Chile, Argentina)</td></tr>
+<tr><td>beans</td><td>judías, alubias</td><td>frijoles; porotos (Southern Cone); menestras (Peru, dried)</td></tr>
+<tr><td>peach</td><td>melocotón</td><td>durazno</td></tr>
+<tr><td>glasses</td><td>gafas</td><td>lentes, anteojos</td></tr>
+<tr><td>jacket</td><td>chaqueta</td><td>chaqueta; chamarra (Mexico); campera (Argentina)</td></tr>
+<tr><td>swimming pool</td><td>piscina</td><td>piscina; alberca (Mexico); pileta (Argentina)</td></tr>
+<tr><td>OK, sure</td><td>vale</td><td>dale, bueno, está bien; órale (Mexico)</td></tr>
+<tr><td>cool</td><td>guay</td><td>chévere (Caribbean, Venezuela, Colombia); bacán (Peru, Chile); padre (Mexico)</td></tr>
+<tr><td>kid</td><td>chaval, crío</td><td>chico, niño; pelado (Panama, Colombia); chamo (Venezuela)</td></tr>
+</table></div>
+
+<div class="box"><p><b>One word to handle with care.</b> In Spain <span class="es">coger</span> just means "to take" or "to catch" (<span class="es">coger el autobús</span>). In Mexico, Argentina and much of Latin America it is vulgar. Use <span class="es">tomar</span> or <span class="es">agarrar</span> instead and you're safe everywhere.</p></div>
+
+<div class="ex"><h3>Check yourself</h3>
+<details><summary>A friend in Madrid says <span class="es">¿Venís a cenar?</span> Who is invited?</summary><span class="ans">More than one person: "Are you all coming to dinner?" (vosotros)</span></details>
+<details><summary>An Argentine asks <span class="es">¿Vos tenés tiempo?</span> What's the tú version?</summary><span class="ans">¿Tú tienes tiempo?</span></details>
+<details><summary>How would you say "I'm going to rent a car" in Panama?</summary><span class="ans">Voy a alquilar un carro.</span></details>
+<details><summary>Translate the Spain-Spanish: <span class="es">Vale, cojo el móvil y os llamo.</span></summary><span class="ans">OK, I'll grab my phone and call you (all).</span></details>
+</div>
+</article>
+
+</div></div>
+</section>
+
+<!-- ============================ VERBS ============================ -->
+<section class="view" id="v-verbs">
+<div class="eyebrow">Reference</div>
+<h1>The verb sheet</h1>
+<p class="lede">The most common Spanish verbs, roughly in order of how often you'll hear them. Forms in <span class="irr">red</span> break the regular pattern. Tap a verb for its full card.</p>
+<div class="controls">
+  <label for="vs-q">Find a verb<input type="search" id="vs-q" placeholder="tener, to have…"></label>
+  <label for="vs-t">Tense<select id="vs-t"></select></label>
+  <label for="vs-f">Show<select id="vs-f"><option value="all">All verbs</option><option value="irregular">Irregular only</option><option value="regular">Regular only</option><option value="25">Top 25</option><option value="50">Top 50</option></select></label>
+  <label for="vs-o">Order<select id="vs-o"><option value="freq">By frequency</option><option value="az">A–Z</option></select></label>
+  <span class="legend" id="vs-count"></span>
+</div>
+<div class="sheet-wrap"><table class="sheet" id="sheet"></table></div>
+<p class="note">On GitHub Pages or a desktop browser, print this page in landscape for a paper copy of the current tense.</p>
+<dialog class="card-dlg" id="vcard" aria-labelledby="vc-title">
+  <div class="card-head"><div><h2 id="vc-title"></h2><div class="note" id="vc-sub"></div></div><div class="go" style="margin:0"><button class="btn primary" id="vc-drill">Drill this verb</button><button class="btn" id="vc-close">Close</button></div></div>
+  <div class="card-body" id="vc-body"></div>
+</dialog>
+</section>
+
+<!-- ============================ DRILL ============================ -->
+<section class="view" id="v-drill">
+<div class="eyebrow">Practice</div>
+<h1>Drills</h1>
+<p class="lede">Missed items come back within minutes; items you know well come back days later. Progress is saved in this browser.</p>
+<div class="drill-grid">
+<div class="panel">
+  <h3>Set up</h3>
+  <div class="mode-tabs" role="group" aria-label="Drill type">
+    <button class="btn" data-mode="prod" aria-pressed="true">Produce</button>
+    <button class="btn" data-mode="recog" aria-pressed="false">Recognize</button>
+  </div>
+  <fieldset><legend>Tenses</legend><div class="chips" id="d-tenses"></div></fieldset>
+  <fieldset><legend>Verbs</legend>
+    <select id="d-verbs" style="width:100%;padding:7px;border:1px solid var(--rule);background:var(--paper)">
+      <option value="25">Top 25</option><option value="50">Top 50</option><option value="all">All verbs</option><option value="irregular">Irregular only</option><option value="weak">My weak spots</option><option value="one">One verb…</option>
+    </select>
+    <input id="d-one" type="search" list="verb-list" placeholder="Type a verb" style="width:100%;margin-top:6px;padding:7px;border:1px solid var(--rule);background:var(--paper);display:none">
+    <datalist id="verb-list"></datalist>
+  </fieldset>
+  <fieldset><legend>Options</legend>
+    <label class="chip"><input type="checkbox" id="d-lenient" checked> Accept missing accents</label>
+    <label class="chip" style="margin-top:6px"><input type="checkbox" id="d-sprint"> 60-second sprint</label>
+  </fieldset>
+  <button class="btn primary" id="d-start" style="width:100%">Start</button>
+  <p class="note" id="d-best"></p>
+</div>
+<div class="stage" id="stage" aria-live="polite">
+  <div class="stats" id="d-stats"></div>
+  <div id="d-area"></div>
+</div>
+</div>
+</section>
+
+<!-- ============================ PHRASES ============================ -->
+<section class="view" id="v-phrases">
+<div class="eyebrow">Phrase book</div>
+<h1>Phrases for real conversations</h1>
+<p class="lede">Learn these as whole chunks; don't take them apart. The first group keeps a conversation going when you're lost, which matters most at your level.</p>
+<div class="go" style="margin-bottom:18px"><button class="btn primary" id="p-study">Study as flashcards</button>
+<label class="chip"><input type="checkbox" id="p-rev"> English → Spanish</label></div>
+<div id="p-flash" class="stage" style="display:none;margin-bottom:24px" aria-live="polite"></div>
+<div id="phr"></div>
+</section>
+</main>
+
+<script>
+"use strict";
+/* ---------- storage (safe) ---------- */
+const store={
+  get(k,d){try{const v=localStorage.getItem("esp."+k);return v?JSON.parse(v):d}catch(e){return d}},
+  set(k,v){try{localStorage.setItem("esp."+k,JSON.stringify(v))}catch(e){}}
+};
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+const TENSES=[
+ {k:"pres",n:"Present",es:"presente",hint:"I do / I'm doing"},
+ {k:"pret",n:"Preterite",es:"pretérito",hint:"I did"},
+ {k:"imp",n:"Imperfect",es:"imperfecto",hint:"I was doing / used to"},
+ {k:"fut",n:"Future",es:"futuro",hint:"I will"},
+ {k:"cond",n:"Conditional",es:"condicional",hint:"I would"},
+ {k:"perf",n:"Present perfect",es:"pretérito perfecto",hint:"I have done"},
+ {k:"plus",n:"Pluperfect",es:"pluscuamperfecto",hint:"I had done"},
+ {k:"subj",n:"Present subjunctive",es:"subjuntivo presente",hint:"(that) I do"},
+ {k:"subjimp",n:"Imperfect subjunctive",es:"subjuntivo imperfecto",hint:"(if / that) I did"},
+ {k:"cmd",n:"Commands",es:"imperativo",hint:"Do it!"},
+ {k:"neg",n:"Negative commands",es:"imperativo negativo",hint:"Don't!"}
+];
+const TN=Object.fromEntries(TENSES.map(t=>[t.k,t]));
+const P5=["yo","tú","él / ella / Ud.","nosotros","ellos / Uds."];
+const P5en=["I","you","he / she / you (formal)","we","they / you all"];
+const P4=["tú","usted","nosotros","ustedes"];
+const P4en=["you","you (formal)","let's","you all"];
+const persons=k=>(k==="cmd"||k==="neg")?P4:P5;
+const personsEn=k=>(k==="cmd"||k==="neg")?P4en:P5en;
+
+/* ---------- regular-pattern generator, used to mark irregular forms ---------- */
+const PERF_AUX={perf:["he","has","ha","hemos","han"],plus:["había","habías","había","habíamos","habían"]};
+function regularForms(inf,k){
+  const g=inf.slice(-2).normalize("NFD").replace(/\p{M}/gu,""), s=inf.slice(0,-2), ar=g==="ar", ir=g==="ir";
+  const part=s+(ar?"ado":"ido");
+  const E={
+    pres: ar?["o","as","a","amos","an"]:ir?["o","es","e","imos","en"]:["o","es","e","emos","en"],
+    pret: ar?["é","aste","ó","amos","aron"]:["í","iste","ió","imos","ieron"],
+    imp: ar?["aba","abas","aba","ábamos","aban"]:["ía","ías","ía","íamos","ían"],
+    subj: ar?["e","es","e","emos","en"]:["a","as","a","amos","an"],
+    subjimp: ar?["ara","aras","ara","áramos","aran"]:["iera","ieras","iera","iéramos","ieran"],
+  };
+  if(E[k]) return E[k].map(e=>s+e);
+  if(k==="fut") return ["é","ás","á","emos","án"].map(e=>inf+e);
+  if(k==="cond") return ["ía","ías","ía","íamos","ían"].map(e=>inf+e);
+  if(PERF_AUX[k]) return PERF_AUX[k].map(a=>a+" "+part);
+  if(k==="cmd") return ar?[s+"a",s+"e",s+"emos",s+"en"]:[s+"e",s+"a",s+"amos",s+"an"];
+  if(k==="neg") return (ar?["es","e","emos","en"]:["as","a","amos","an"]).map(e=>"no "+s+e);
+  return [];
+}
+const fmt=(v,k,i)=>{const f=v.t[k][i],r=regularForms(v.inf,k)[i];return f!==r?`<span class="irr">${esc(f)}</span>`:esc(f)};
+
+let VERBS=[]; const VI={};
+
+/* ---------- routing ---------- */
+const TABS=["book","verbs","drill","phrases"];
+function route(){
+  let h=location.hash.slice(1)||"book", ch=null;
+  if(/^ch\d+$/.test(h)){ch=h;h="book"}
+  if(!TABS.includes(h))h="book";
+  $$(".view").forEach(v=>v.classList.toggle("on",v.id==="v-"+h));
+  $$("nav.tabs a").forEach(a=>{if(a.dataset.tab===h)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
+  if(ch){const el=document.getElementById(ch);if(el)el.scrollIntoView({block:"start"})}else window.scrollTo(0,0);
+}
+addEventListener("hashchange",route);
+
+/* ---------- book TOC + cross links ---------- */
+function buildToc(){
+  $("#toc").innerHTML=$$(".chapter").map((c,i)=>`<li><a href="#${c.id}"><span class="n">${i}</span>${esc(c.dataset.title)}</a></li>`).join("");
+  document.addEventListener("click",e=>{
+    const a=e.target.closest("a[data-sheet],a[data-drill]");if(!a)return;
+    if(a.dataset.sheet){$("#vs-t").value=a.dataset.sheet;renderSheet()}
+    if(a.dataset.drill){setDrillTenses(a.dataset.drill.split(","));setMode(a.dataset.mode||"prod")}
+  });
+}
+
+/* ---------- verb sheet ---------- */
+function initSheet(){
+  $("#vs-t").innerHTML=TENSES.map(t=>`<option value="${t.k}">${t.n} — ${t.es}</option>`).join("")+`<option value="nonfinite">Gerund &amp; participle</option>`;
+  ["#vs-q","#vs-t","#vs-f","#vs-o"].forEach(s=>$(s).addEventListener("input",renderSheet));
+  $("#sheet").addEventListener("click",e=>{const b=e.target.closest("button[data-v]");if(b)openCard(b.dataset.v)});
+  $("#vc-close").onclick=()=>$("#vcard").close();
+  $("#vcard").addEventListener("click",e=>{if(e.target.id==="vcard")$("#vcard").close()});
+}
+function filteredVerbs(f,q=""){
+  let list=VERBS.map((v,i)=>({...v,rank:i}));
+  if(f==="irregular")list=list.filter(v=>v.type==="irregular");
+  else if(f==="regular")list=list.filter(v=>v.type!=="irregular");
+  else if(f==="25")list=list.slice(0,25);
+  else if(f==="50")list=list.slice(0,50);
+  q=q.trim().toLowerCase();
+  if(q)list=list.filter(v=>v.inf.includes(q)||v.en.toLowerCase().includes(q));
+  return list;
+}
+function renderSheet(){
+  const k=$("#vs-t").value,list=filteredVerbs($("#vs-f").value,$("#vs-q").value);
+  if($("#vs-o").value==="az")list.sort((a,b)=>a.inf.localeCompare(b.inf,"es"));
+  const tag=v=>v.type==="irregular"?`<span class="tag irregular">irreg.</span>`:v.type==="spelling"?`<span class="tag">spelling</span>`:"";
+  let head,rows;
+  if(k==="nonfinite"){
+    head=`<tr><th>Verb</th><th>Meaning</th><th>Gerund (-ing)</th><th>Participle</th></tr>`;
+    rows=list.map(v=>{const s=v.inf.slice(0,-2),ar=/ar$/.test(v.inf);
+      const g=v.ger!==s+(ar?"ando":"iendo")?`<span class="irr">${esc(v.ger)}</span>`:esc(v.ger);
+      const p=v.part!==s+(ar?"ado":"ido")?`<span class="irr">${esc(v.part)}</span>`:esc(v.part);
+      return `<tr><td class="v"><button data-v="${v.inf}">${v.inf}</button>${tag(v)}</td><td class="gl">${esc(v.en)}</td><td>${g}</td><td>${p}</td></tr>`}).join("");
+  }else{
+    head=`<tr><th>Verb</th><th>Meaning</th>${persons(k).map(p=>`<th>${p}</th>`).join("")}</tr>`;
+    rows=list.map(v=>`<tr><td class="v"><button data-v="${v.inf}">${v.inf}</button>${tag(v)}</td><td class="gl">${esc(v.en)}</td>${v.t[k].map((_,i)=>`<td>${fmt(v,k,i)}</td>`).join("")}</tr>`).join("");
+  }
+  $("#sheet").innerHTML=`<thead>${head}</thead><tbody>${rows||`<tr><td colspan="7">No verb matches “${esc($("#vs-q").value)}”. Try the English meaning.</td></tr>`}</tbody>`;
+  $("#vs-count").textContent=`${list.length} verbs`;
+}
+function openCard(inf){
+  const v=VI[inf];if(!v)return;
+  $("#vc-title").textContent=v.inf;
+  $("#vc-sub").textContent=`${v.en} · gerund ${v.ger} · participle ${v.part}`;
+  $("#vc-body").innerHTML=TENSES.map(t=>`<div class="tbl"><h4>${t.n}</h4><table>${v.t[t.k].map((f,i)=>`<tr><td>${persons(t.k)[i]}</td><td>${fmt(v,t.k,i)}</td></tr>`).join("")}</table></div>`).join("");
+  $("#vc-drill").onclick=()=>{$("#vcard").close();$("#d-verbs").value="one";$("#d-one").style.display="block";$("#d-one").value=inf;location.hash="drill"};
+  $("#vcard").showModal();
+}
+
+/* ---------- spaced repetition (Leitner boxes) ---------- */
+const INTERVALS=[0,2*60e3,10*60e3,24*3600e3,3*24*3600e3,7*24*3600e3,21*24*3600e3];
+let SRS=store.get("srs",{});
+function grade(id,ok){
+  const c=SRS[id]||{b:0,d:0,s:0,w:0};
+  c.s++; if(ok){c.b=Math.min(c.b+1,INTERVALS.length-1)}else{c.b=0;c.w++}
+  c.d=Date.now()+INTERVALS[ok?c.b:1]; SRS[id]=c; store.set("srs",SRS);
+}
+function pickItem(pool,lastId){
+  const now=Date.now();
+  const due=pool.filter(it=>SRS[it.id]&&SRS[it.id].d<=now&&it.id!==lastId);
+  const fresh=pool.filter(it=>!SRS[it.id]&&it.id!==lastId);
+  let src;
+  if(due.length&&(Math.random()<.7||!fresh.length))src=due;
+  else if(fresh.length)src=fresh;
+  else{ // everything is scheduled in the future: take the soonest-due few
+    src=pool.filter(it=>it.id!==lastId).sort((a,b)=>SRS[a.id].d-SRS[b.id].d).slice(0,8);
+  }
+  if(!src.length)src=pool;
+  // within the source, favour low boxes / frequent misses
+  const w=src.map(it=>{const c=SRS[it.id];return c?1+c.w*2+(6-c.b):3});
+  let r=Math.random()*w.reduce((a,b)=>a+b,0);
+  for(let i=0;i<src.length;i++){r-=w[i];if(r<=0)return src[i]}
+  return src[src.length-1];
+}
+
+/* ---------- drills ---------- */
+const DRILL_TENSES=["pres","pret","imp","fut","cond","perf","subj","subjimp","cmd"];
+let MODE="prod", S=null;
+function initDrill(){
+  $("#d-tenses").innerHTML=DRILL_TENSES.map(k=>`<label class="chip"><input type="checkbox" value="${k}" ${k==="pres"||k==="pret"?"checked":""}>${TN[k].n}</label>`).join("");
+  $("#verb-list").innerHTML=VERBS.map(v=>`<option value="${v.inf}">${esc(v.en)}</option>`).join("");
+  $("#d-verbs").addEventListener("input",()=>{$("#d-one").style.display=$("#d-verbs").value==="one"?"block":"none"});
+  $$(".mode-tabs button").forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
+  $("#d-start").onclick=startDrill;
+  renderStats(); idleScreen();
+}
+function setMode(m){MODE=m;$$(".mode-tabs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.mode===m));idleScreen()}
+function setDrillTenses(ks){$$("#d-tenses input").forEach(i=>i.checked=ks.includes(i.value));idleScreen()}
+function idleScreen(){
+  S&&S.timer&&clearInterval(S.timer);S=null;
+  const best=store.get("best",{});
+  $("#d-best").textContent=best[MODE]?`Best 60-second sprint (${MODE==="prod"?"Produce":"Recognize"}): ${best[MODE]} correct`:"";
+  $("#d-area").innerHTML=MODE==="prod"
+   ?`<p class="prompt">Produce</p><p class="big">tener → <span class="es">tuvimos</span><small>You'll see a verb, a tense and a person. Type the form. Use the accent buttons or your keyboard; Enter checks and moves on.</small></p>`
+   :`<p class="prompt">Recognize</p><p class="big es">supieron<small>You'll see a form, as if you just heard it. Pick who and when, as fast as you can. Keys 1–4 work.</small></p>`;
+  renderStats();
+}
+function buildPool(){
+  const ks=$$("#d-tenses input:checked").map(i=>i.value);
+  if(!ks.length)return {err:"Pick at least one tense."};
+  let vs, sel=$("#d-verbs").value;
+  if(sel==="one"){const v=VI[$("#d-one").value.trim().toLowerCase()];if(!v)return {err:"Type a verb from the list, e.g. tener."};vs=[v]}
+  else if(sel==="weak"){const bad=new Set(Object.entries(SRS).filter(([,c])=>c.w>0&&c.b<4).map(([id])=>id.split("|")[0]));vs=VERBS.filter(v=>bad.has(v.inf));if(!vs.length)return {err:"No weak spots yet. Drill a while first and the verbs you miss will collect here."}}
+  else vs=filteredVerbs(sel);
+  const pool=[];
+  for(const v of vs)for(const k of ks)v.t[k].forEach((f,i)=>{
+    if(MODE==="recog"&&(k==="cmd"))return; // commands overlap the subjunctive; skip in recognition
+    pool.push({id:`${v.inf}|${k}|${i}|${MODE}`,v,k,i,form:f});
+  });
+  if(!pool.length)return {err:"Commands aren't used in Recognize (they look like the subjunctive). Pick another tense."};
+  return {pool,ks};
+}
+function startDrill(){
+  const r=buildPool();
+  if(r.err){$("#d-area").innerHTML=`<p class="fb"><span class="no">${esc(r.err)}</span></p>`;return}
+  S={pool:r.pool,ks:r.ks,n:0,ok:0,streak:0,last:null,sprint:$("#d-sprint").checked,end:0};
+  if(S.sprint){S.end=Date.now()+60e3;S.timer=setInterval(tick,200)}
+  next();
+  if(innerWidth<800)$("#stage").scrollIntoView({block:"start"});
+}
+function tick(){
+  const left=Math.max(0,S.end-Date.now());
+  const t=$("#d-timer");if(t)t.textContent=(left/1000).toFixed(0)+"s";
+  if(!left){clearInterval(S.timer);finishSprint()}
+}
+function finishSprint(){
+  const best=store.get("best",{});const isBest=S.ok>(best[MODE]||0);
+  if(isBest){best[MODE]=S.ok;store.set("best",best)}
+  $("#d-area").innerHTML=`<p class="prompt">Time</p><p class="big">${S.ok} correct<small>${S.n} tried · ${S.n?Math.round(100*S.ok/S.n):0}% accuracy${isBest?" · new best":""}</small></p><div class="go"><button class="btn primary" id="again">Go again</button></div>`;
+  $("#again").onclick=startDrill; S.timer=null; renderStats();
+}
+const norm=(s,len)=>{s=s.toLowerCase().trim().replace(/\s+/g," ");return len?s.replace(/ñ/g,"\u0001").normalize("NFD").replace(/\p{M}/gu,"").replace(/\u0001/g,"ñ"):s};
+function header(){
+  return `${S.sprint?`<span class="timer" id="d-timer">60s</span> · `:""}<span class="note">${S.ok} / ${S.n} correct${S.streak>2?` · streak ${S.streak}`:""}</span>`;
+}
+function next(){
+  if(S.sprint&&Date.now()>=S.end)return;
+  const it=pickItem(S.pool,S.last);S.cur=it;S.last=it.id;
+  (MODE==="prod"?showProd:showRecog)(it);
+}
+function showProd(it){
+  const t=TN[it.k];
+  $("#d-area").innerHTML=`<div>${header()}</div>
+   <p class="prompt">${t.n} · <span class="es">${t.es}</span> · ${esc(t.hint)}</p>
+   <p class="big">${it.v.inf}<small>${esc(it.v.en)}</small></p>
+   <p class="person">${persons(it.k)[it.i]} <span class="note">(${personsEn(it.k)[it.i]})</span></p>
+   <form class="answer-row" id="pf" autocomplete="off"><input id="pa" aria-label="Your answer" autocapitalize="off" spellcheck="false" autocorrect="off"><button class="btn primary">Check</button></form>
+   <div class="accents">${["á","é","í","ó","ú","ñ","ü"].map(c=>`<button type="button" data-c="${c}">${c}</button>`).join("")}</div>
+   <div class="fb" id="fb"></div>`;
+  const inp=$("#pa");inp.focus();
+  $$(".accents button").forEach(b=>b.onclick=()=>{const p=inp.selectionStart??inp.value.length;inp.value=inp.value.slice(0,p)+b.dataset.c+inp.value.slice(inp.selectionEnd??p);inp.focus();inp.setSelectionRange(p+1,p+1)});
+  let checked=false;
+  $("#pf").onsubmit=e=>{
+    e.preventDefault();
+    if(checked){next();return}
+    if(!inp.value.trim())return;
+    checked=true;
+    const len=$("#d-lenient").checked, ans=it.form;
+    const exact=norm(inp.value,false)===norm(ans,false);
+    const ok=exact||norm(inp.value,true)===norm(ans,true);
+    S.n++; if(ok){S.ok++;S.streak++}else S.streak=0;
+    const counted=ok&&(exact||len);
+    grade(it.id,counted);
+    const row=it.v.t[it.k].map((f,i)=>i===it.i?`<b>${esc(f)}</b>`:esc(f)).join(" · ");
+    $("#fb").innerHTML=(counted?`<span class="ok">Right.</span> ${exact?"":`Accents: <b>${esc(ans)}</b>`}`
+      :ok?`<span class="no">Check the accent:</span> <b>${esc(ans)}</b>`
+      :`<span class="no">Not quite.</span> It's <b>${esc(ans)}</b>`)
+      +`<div class="row">${TN[it.k].n} of ${it.v.inf}: ${row}</div><div class="row">Enter for the next one.</div>`;
+    inp.readOnly=true;$("#pf button").textContent="Next";$("#pf button").focus();
+    renderStats();
+    if(S.sprint&&counted)setTimeout(()=>{if(S&&S.cur===it)next()},350);
+  };
+}
+/* reverse index: form -> list of {inf,k,i} (for recognition ambiguity) */
+let FORMIDX={};
+function buildFormIdx(){
+  FORMIDX={};
+  for(const v of VERBS)for(const k of DRILL_TENSES)v.t[k].forEach((f,i)=>{(FORMIDX[f]=FORMIDX[f]||[]).push({inf:v.inf,k,i})});
+}
+const labelOf=(inf,k,i)=>`${inf} · ${TN[k].n.toLowerCase()} · ${personsEn(k)[i]}`;
+function showRecog(it){
+  const matches=FORMIDX[it.form]||[{inf:it.v.inf,k:it.k,i:it.i}];
+  const key=(a)=>`${a.inf}|${a.k}|${a.i}`;
+  const valid=new Set(matches.map(key));
+  const opts=[{inf:it.v.inf,k:it.k,i:it.i}];
+  const seen=new Set([key(opts[0])]);
+  const ks=S.ks.filter(k=>k!=="cmd");
+  const cand=[];
+  // same verb, same tense, other person
+  for(let i=0;i<5;i++)cand.push({inf:it.v.inf,k:it.k,i});
+  // same verb, other tense, same person
+  for(const k of ["pres","pret","imp","fut","cond","subj","subjimp"])cand.push({inf:it.v.inf,k,i:it.i});
+  // a different verb, same tense and person
+  for(let n=0;n<4;n++){const o=VERBS[Math.floor(Math.random()*Math.min(60,VERBS.length))];cand.push({inf:o.inf,k:it.k,i:it.i})}
+  cand.sort(()=>Math.random()-.5);
+  for(const c of cand){if(opts.length>=4)break;const kk=key(c);if(seen.has(kk)||valid.has(kk))continue;
+    // never offer a distractor whose own form equals the shown form
+    if(VI[c.inf].t[c.k][c.i]===it.form)continue; seen.add(kk);opts.push(c)}
+  opts.sort(()=>Math.random()-.5);
+  $("#d-area").innerHTML=`<div>${header()}</div>
+   <p class="prompt">Who, and when?</p>
+   <p class="big es">${esc(it.form)}</p>
+   <div class="opts">${opts.map((o,n)=>`<button class="opt" data-n="${n}"><kbd>${n+1}</kbd>${esc(labelOf(o.inf,o.k,o.i))}</button>`).join("")}</div>
+   <div class="fb" id="fb"></div>`;
+  let done=false;
+  const choose=n=>{
+    if(done){next();return} done=true;
+    const o=opts[n],ok=valid.has(key(o));
+    S.n++;if(ok){S.ok++;S.streak++}else S.streak=0;
+    grade(it.id,ok);
+    $$(".opt").forEach((b,j)=>{if(valid.has(key(opts[j])))b.classList.add("right");else if(j===n)b.classList.add("wrong")});
+    const also=matches.length>1?`<div class="row">This form is also: ${matches.filter(m=>key(m)!==key(o)).map(m=>esc(labelOf(m.inf,m.k,m.i))).slice(0,4).join("; ")}</div>`:"";
+    const v=it.v;
+    $("#fb").innerHTML=(ok?`<span class="ok">Right.</span> `:`<span class="no">It's ${esc(labelOf(v.inf,it.k,it.i))}.</span> `)+`<span class="note">${esc(v.en)}</span>`+also+`<div class="row">${TN[it.k].n}: ${v.t[it.k].map(esc).join(" · ")}</div><div class="row">Tap any answer or press Enter for the next one.</div>`;
+    renderStats();
+    if(S.sprint&&ok)setTimeout(()=>{if(S&&S.cur===it)next()},350);
+  };
+  $$(".opt").forEach(b=>b.onclick=()=>choose(+b.dataset.n));
+  S.key=choose; S.opts=opts.length;
+}
+document.addEventListener("keydown",e=>{
+  if(!S||MODE!=="recog"||!$("#v-drill").classList.contains("on"))return;
+  if(e.target.tagName==="INPUT"||e.target.tagName==="SELECT")return;
+  const n=+e.key;
+  if(n>=1&&n<=S.opts){e.preventDefault();S.key(n-1)}
+  else if(e.key==="Enter"&&$(".opt.right")){e.preventDefault();next()}
+});
+function renderStats(){
+  const all=Object.entries(SRS), now=Date.now();
+  const known=all.filter(([,c])=>c.b>=4).length, due=all.filter(([,c])=>c.d<=now&&c.b<4).length;
+  const days=store.get("days",[]),today=new Date().toISOString().slice(0,10);
+  if(all.length&&!days.includes(today)&&S&&S.n){days.push(today);store.set("days",days)}
+  let streak=0;{let d=new Date();for(;;){const s=d.toISOString().slice(0,10);if(days.includes(s)){streak++;d.setDate(d.getDate()-1)}else break}}
+  $("#d-stats").innerHTML=`<span><b>${all.length}</b> items practised</span><span><b>${known}</b> solid</span><span><b>${due}</b> due for review</span><span><b>${streak}</b>-day streak</span>`;
+}
+
+/* ---------- phrases ---------- */
+const PHRASES=[
+ {c:"When you're lost",items:[
+  ["¿Me lo puede repetir, por favor?","Could you repeat that, please?"],
+  ["Más despacio, por favor.","More slowly, please."],
+  ["No entendí la última parte.","I didn't get the last part."],
+  ["¿Qué significa «___»?","What does “___” mean?"],
+  ["¿Cómo se dice ___ en español?","How do you say ___ in Spanish?"],
+  ["A ver si entendí: …","Let me see if I understood: …"],
+  ["O sea, ¿que …?","So you mean that …?"],
+  ["Perdón, ¿cómo?","Sorry, what?"],
+  ["Lo entiendo mejor si lo escribe.","I understand better if you write it down."],
+  ["Espere, déjeme pensar.","Wait, let me think."],
+  ["Te sigo.","I'm following you."],
+  ["¿Me explico?","Am I making sense?"]]},
+ {c:"Reacting and giving opinions",items:[
+  ["Creo que sí. / Creo que no.","I think so. / I don't think so."],
+  ["Depende.","It depends."],
+  ["Tiene razón.","You're right."],
+  ["Estoy de acuerdo.","I agree."],
+  ["No estoy seguro.","I'm not sure."],
+  ["Me parece bien.","Sounds good to me."],
+  ["¡No me diga!","You don't say!"],
+  ["¡Qué bien! / ¡Qué pena!","Great! / What a shame!"],
+  ["Ni modo.","Oh well, nothing to be done."],
+  ["Claro que sí.","Of course."],
+  ["La verdad, no sé.","Honestly, I don't know."],
+  ["Lo que pasa es que …","The thing is …"]]},
+ {c:"Time and plans",items:[
+  ["¿A qué hora quedamos?","What time shall we meet?"],
+  ["¿Le queda bien el martes?","Does Tuesday work for you?"],
+  ["Nos vemos mañana.","See you tomorrow."],
+  ["Ahorita voy.","I'll be there in a bit."],
+  ["Acabo de llegar.","I just arrived."],
+  ["Todavía no.","Not yet."],
+  ["Ya está.","It's done. / That's it."],
+  ["Hace dos años que vengo aquí.","I've been coming here for two years."],
+  ["Avíseme cuando sepa algo.","Let me know when you hear something."],
+  ["Cuando pueda.","Whenever you can."]]},
+ {c:"Prices, deals and property",items:[
+  ["¿Cuál es el precio final?","What's the final price?"],
+  ["¿Está incluido …?","Is … included?"],
+  ["Necesito pensarlo.","I need to think about it."],
+  ["Es mi última oferta.","It's my final offer."],
+  ["¿Podemos dejarlo por escrito?","Can we put it in writing?"],
+  ["¿Me puede mandar una copia?","Can you send me a copy?"],
+  ["Me gustaría ver el título de propiedad.","I'd like to see the property title."],
+  ["¿Quién paga los gastos de notaría?","Who pays the notary fees?"],
+  ["¿Cuándo se puede firmar?","When can it be signed?"],
+  ["el adelanto / el saldo","the down payment / the balance"],
+  ["la escritura","the deed"],
+  ["el plano / el agrimensor","the survey plan / the surveyor"],
+  ["los linderos","the boundaries"],
+  ["el recibo","the receipt"]]},
+ {c:"Errands and service",items:[
+  ["¿Me da …, por favor?","Can I have …, please?"],
+  ["Quisiera …","I would like …"],
+  ["¿Tiene …?","Do you have …?"],
+  ["¿Aceptan tarjeta?","Do you take cards?"],
+  ["La cuenta, por favor.","The bill, please."],
+  ["¿Dónde queda …?","Where is …?"],
+  ["¿Me hace el favor de …?","Would you do me the favour of …?"],
+  ["¿Cuánto le debo?","How much do I owe you?"]]},
+ {c:"Social",items:[
+  ["¿Qué tal todo?","How's everything?"],
+  ["¿Cómo le ha ido?","How have you been?"],
+  ["Mucho gusto. / Igualmente.","Nice to meet you. / Likewise."],
+  ["¡Buen provecho!","Enjoy your meal!"],
+  ["Que le vaya bien.","Hope it goes well for you."],
+  ["Cuídese.","Take care."],
+  ["Con permiso.","Excuse me (passing, leaving)."],
+  ["Disculpe la molestia.","Sorry to bother you."],
+  ["Gracias por todo.","Thanks for everything."]]}
+];
+function initPhrases(){
+  $("#phr").innerHTML=PHRASES.map(g=>`<section class="phr-cat"><h2>${esc(g.c)}</h2>${g.items.map(([s,e])=>`<div class="phr"><span class="s">${esc(s)}</span><span class="e">${esc(e)}</span></div>`).join("")}</section>`).join("");
+  $("#p-study").onclick=()=>{$("#p-flash").style.display="flex";nextPhrase()};
+}
+const PH=PHRASES.flatMap(g=>g.items.map(([s,e])=>({id:"ph|"+s,s,e,c:g.c})));
+let lastPh=null;
+function nextPhrase(){
+  const it=pickItem(PH,lastPh&&lastPh.id);lastPh=it;
+  const rev=$("#p-rev").checked, front=rev?it.e:it.s, back=rev?it.s:it.e;
+  $("#p-flash").innerHTML=`<p class="prompt">${esc(it.c)}</p><p class="flash${rev?"":" es"}">${esc(front)}</p>
+   <div class="go"><button class="btn primary" id="p-show">Show answer</button><button class="btn" id="p-close">Done</button></div>`;
+  $("#p-close").onclick=()=>$("#p-flash").style.display="none";
+  $("#p-show").onclick=()=>{
+    $("#p-flash").insertAdjacentHTML("beforeend",`<p class="flash-back">${esc(back)}</p>`);
+    $("#p-show").replaceWith(Object.assign(document.createElement("span"),{className:"go",innerHTML:`<button class="btn" id="p-no">Didn't know it</button><button class="btn primary" id="p-yes">Knew it</button>`}));
+    $("#p-no").onclick=()=>{grade(it.id,false);nextPhrase()};
+    $("#p-yes").onclick=()=>{grade(it.id,true);nextPhrase()};
+    $("#p-yes").focus();
+  };
+}
+
+/* ---------- boot ---------- */
+buildToc(); initPhrases(); route();
+fetch("verbs.json").then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(d=>{
+  VERBS=d; d.forEach(v=>VI[v.inf]=v);
+  buildFormIdx(); initSheet(); renderSheet(); initDrill();
+}).catch(err=>{
+  const msg=`<p class="fb"><span class="no">The verb data didn't load (${esc(err.message)}).</span> Open this page from a web server or GitHub Pages rather than straight from a file.</p>`;
+  $("#sheet").outerHTML=msg; $("#d-area").innerHTML=msg;
+});
+</script>
+</body>
+</html>
