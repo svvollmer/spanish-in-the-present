@@ -23,6 +23,19 @@ SPELLING = {"pag:ar","sa:car","ca:zar","cre:er","act:uar","gu:iar","adstrin:gir"
 # Corrections to library output: participles, and commands where the library gives a rarer form
 PARTICIPLE_FIXES = {"comprender":"comprendido","nacer":"nacido","elegir":"elegido"}
 COMMAND_FIXES = {("valer",0):"vale", ("ir",2):"vamos"}
+# verbecc returns the impersonal "hay" for haber's él form; as an auxiliary it is "ha" (ha hablado).
+FORM_FIXES = {("haber","pres",2): "ha"}
+# Tenses a grammar lists but nobody uses: not shown on the sheet, not drilled.
+# haber's imperative is archaic ("hé"); gustar's is not used (you'd say "que te guste").
+SKIP = {"haber": ["cmd","neg"], "gustar": ["cmd","neg"]}
+# Backwards verbs: the thing liked is the subject, so only the él/ellos forms get drilled.
+DATIVE = {"gustar"}
+NOTES = {
+    "haber": "Auxiliary only: he hablado, había llegado. For \"there is / there are\" use the "
+             "impersonal hay — había, hubo, habrá — never ha.",
+    "gustar": "Works backwards: the thing liked is the subject. Me gusta el café, me gustan los "
+              "libros. Only the él/ella and ellos forms are drilled.",
+}
 
 c = CompleteConjugator(lang="es")
 
@@ -66,9 +79,36 @@ for inf, en in VERBS:
         for k in ("perf","plus"): v["t"][k] = [f.replace(old, new) for f in v["t"][k]]
     for (verb, i), form in COMMAND_FIXES.items():
         if verb == inf: v["t"]["cmd"][i] = form
+    for (verb, key, i), form in FORM_FIXES.items():
+        if verb == inf: v["t"][key][i] = form
+    if inf in SKIP: v["skip"] = SKIP[inf]
+    if inf in DATIVE: v["dative"] = True
+    if inf in NOTES: v["note"] = NOTES[inf]
     v["type"] = "regular" if tpl in REGULAR else ("spelling" if tpl in SPELLING else "irregular")
     out.append(v)
 
+def render(verbs):
+    """One tense per line, so a regenerated file has a reviewable diff.
+
+    The old one-line output made any change to the data a single 107 KB diff hunk.
+    """
+    j = lambda o: json.dumps(o, ensure_ascii=False, separators=(",", ":"))
+    chunks = []
+    for v in verbs:
+        lines = [' {', f'  "inf":{j(v["inf"])}, "en":{j(v["en"])}, "type":{j(v["type"])},',
+                 f'  "ger":{j(v["ger"])}, "part":{j(v["part"])},']
+        for k in ("dative", "skip", "note"):
+            if k in v: lines.append(f'  {j(k)}:{j(v[k])},')
+        lines.append('  "t":{')
+        ks = list(v["t"])
+        for n, k in enumerate(ks):
+            lines.append(f'   {j(k)}:{j(v["t"][k])}' + ("," if n < len(ks) - 1 else ""))
+        lines += ['  }', ' }']
+        chunks.append("\n".join(lines))
+    return "[\n" + ",\n".join(chunks) + "\n]\n"
+
+text = render(out)
+assert json.loads(text) == out, "pretty-printer changed the data"
 path = os.path.join(os.path.dirname(__file__), "..", "verbs.json")
-json.dump(out, open(path, "w"), ensure_ascii=False, separators=(",",":"))
-print(f"wrote {len(out)} verbs to verbs.json")
+with open(path, "w", encoding="utf-8") as f: f.write(text)
+print(f"wrote {len(out)} verbs to verbs.json ({text.count(chr(10))+1} lines)")
