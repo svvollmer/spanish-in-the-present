@@ -1,6 +1,6 @@
 # (infinitive, english gloss) — ~120 high-frequency verbs, roughly in frequency order
 VERBS = [
-("ser","to be (identity, traits)"),("estar","to be (state, location)"),("tener","to have"),("hacer","to do, to make"),
+("ser","to be (identity, traits)"),("estar","to be (state, location)"),("haber","to have (auxiliary); hay = there is/are"),("tener","to have"),("hacer","to do, to make"),
 ("poder","to be able to, can"),("decir","to say, to tell"),("ir","to go"),("ver","to see"),("dar","to give"),
 ("saber","to know (facts)"),("querer","to want, to love"),("llegar","to arrive"),("pasar","to pass, to happen"),
 ("deber","to owe, should"),("poner","to put"),("parecer","to seem"),("quedar","to stay, to remain"),
