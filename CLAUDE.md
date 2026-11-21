@@ -1,29 +1,21 @@
 # Spanish in the Present — project notes for Claude Code
 
 ## What this is
-A lightweight Spanish study system for adult learners who already understand ~30–50% of spoken Spanish and want to close the gap fast. Owner: Steve. Collaborators testing and developing: Steph and Miles. Learners "live in the present" with their Spanish (real conversations, Latin America), find other apps too slow, and have never studied from a textbook, so the site combines old-school textbook chapters with fast drills.
+A lightweight Spanish study system for adult learners who already understand a fair amount of
+spoken Spanish and want to close the gap fast: old-school textbook chapters paired with fast
+drills, for people who have never studied from a textbook and find other apps too slow.
+Latin American Spanish throughout.
+
+> Private working notes — the roadmap, who is testing, and anything commercial — live in
+> `NOTES.private.md`, which is deliberately **not** in version control. This file is public:
+> keep it to how the code works.
 
 ## Status
 - First version built in claude.ai, moved here as a git repo.
 - **Live.** Public repo `svvollmer/spanish-in-the-present`; GitHub Pages serves `main` / root at
   <https://svvollmer.github.io/spanish-in-the-present/>
-- Current commit: the original `ea26f0e` re-authored as `047f9d2` (identical tree). Author and committer are
-  `Steve Vollmer <34316017+svvollmer@users.noreply.github.com>` — the GitHub noreply address, deliberately,
-  so a public repo does not carry a personal email. Repo-local `user.name`/`user.email` are set to match.
+- Commits use the GitHub noreply address, so the public repo carries no personal email.
 - A preview copy also exists as a claude.ai artifact; this repo is the source of truth.
-
-## Setup status (2026-11-20)
-Done:
-1. Commit re-authored; repo-local git identity set.
-2. Public repo created, `main` pushed.
-3. GitHub Pages enabled from `main` / root. First build succeeded; `index.html` and `verbs.json` both serve 200.
-4. Stray `../spanish-in-the-present.tar.gz` and `tools/__pycache__/` removed — the tarball was first verified
-   byte-identical to the repo (its only commit was the pre-amend `ea26f0e`, same tree), so nothing was lost.
-
-Remaining:
-5. **Add Steph and Miles as collaborators — their GitHub usernames are still unknown. Ask Steve.**
-6. Workflow: branches + pull requests so others can test before changes go live. There is no CI and no branch
-   protection yet, and Pages deploys straight off `main`, so a bad push breaks the live site for all three.
 
 ## Architecture
 Static site, no build step, no framework.
@@ -99,14 +91,21 @@ distractors now draw from it, so they stay inside the tenses the learner selecte
 ### Deliberately not done (prototype stage)
 CI, branch protection, a golden-file test over all 6,784 forms, splitting `index.html`, and a LICENSE.
 The shape of the thing is still moving; tests would pin down data that is about to change, and the
-single no-build-step file is an asset while iterating. Revisit when the content settles — and note that
-Pages still deploys straight off `main`, so a bad push breaks the live site for all three users.
+single no-build-step file is an asset while iterating. Revisit when the content settles.
 
-## Roadmap (Steve's priorities)
-1. **Sync progress across devices and per person** (Steve, Steph, Miles). Today it is localStorage only.
-2. **More content:** further chapters at the levels people find hardest; more verbs; vocabulary-gap test over the ~2,000–3,000 most frequent words; listening at native speed (audio clip → reveal transcript).
-3. **Live translator (separate app, same repo, e.g. `translator/`).** Goal: genuinely real-time two-way translation on iPhone/Android that both people *read* on one phone (split screen, the other half upside down for the person across the table).
-   - Current products are too slow mainly because they wait for the end of a sentence and then speak the translation. Design choices: **text only, no TTS**; stream partial transcripts word by word; handle translation "flicker" with stable streaming.
-   - Benchmark streaming engines on real Spanish conversation before committing (candidates include DeepL Voice, Gemini Live Translate preview, OpenAI realtime translation, Deepgram/AssemblyAI streaming STT + LLM translation).
-   - Learning hook: show the Spanish first and translate only the words the user taps; tapped words plus their sentence go into the drill deck. This merges the translator with the study system.
-   - Needs mic streaming + API keys → a PWA or native app with a small backend for keys. Don't put API keys in the static site.
+## Public/private boundary — read before writing anything down
+The repo **and** the site are public. Two rules follow:
+- Anything about people (who is testing, their level), the roadmap, or anything commercial goes in
+  `NOTES.private.md`, which `.gitignore` excludes via `*.private.md`. Never move that content into a
+  tracked file "for convenience".
+- Never put an API key, token or credential anywhere in this repo. The site is static with no backend,
+  so there is no safe place for one; the planned translator needs a small server precisely for this.
+
+The site carries `<meta name="robots" content="noindex, nofollow">` and a `robots.txt` that disallows
+all crawling — deliberate while it is a prototype. Do not remove either without being asked.
+
+No licence file, deliberately: public on GitHub grants no reuse rights, so the default is
+all-rights-reserved. Do not add MIT/Apache on tidiness grounds; it is a product decision.
+
+`verbs.json`'s provenance is an open licensing question (verbecc's Spanish data is GPL-licensed) —
+see "Where `verbs.json` comes from" in the README before the data ships in anything commercial.

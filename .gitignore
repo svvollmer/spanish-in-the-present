@@ -2,3 +2,6 @@ __pycache__/
 .DS_Store
 *.pyc
 verbecc.log
+
+# Private working notes: roadmap, people, anything commercial. The repo is public.
+*.private.md

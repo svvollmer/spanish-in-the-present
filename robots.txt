@@ -1,0 +1,5 @@
+# This is a working prototype, not a published product. It is reachable by anyone
+# with the link; it just should not turn up in search results yet.
+# Remove this file (and the noindex meta tag in index.html) to go looking for traffic.
+User-agent: *
+Disallow: /
