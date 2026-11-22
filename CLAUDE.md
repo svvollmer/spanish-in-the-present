@@ -23,6 +23,13 @@ Static site, no build step, no framework.
 - `verbs.json` — 128 verbs × 11 tenses. Loaded with `fetch`, so the site must be served over HTTP (`python3 -m http.server`), not opened as a file. Written one tense per line so a regeneration has a reviewable diff.
 - `tools/verbs_list.py` — verb list + English glosses in rough frequency order.
 - `tools/build_verbs.py` — regenerates `verbs.json` using the `verbecc` library (`pip install -r requirements.txt`; first run trains a small model, ~20 s).
+- `words.json` — 54 common words x 90 uses. Hand-authored, not generated from a corpus; see
+  `tools/words_list.py` for why. Loaded separately from `verbs.json` so a failure in one cannot
+  take out the other.
+- `tools/words_list.py` — the word data, as Python literals. The source of truth.
+- `tools/build_words.py` — validates and emits `words.json` (`python3 tools/build_words.py`).
+  The validation is the point: the gap-fill drill is generated at runtime by blanking a word out
+  of its own example, so the builder refuses an example that does not contain its headword.
 - `requirements.txt` — pins **verbecc 2.1.0**. Verified 2026-11-20: on 2.1.0 the script reproduces the committed `verbs.json` byte for byte. Do not float this version; a different one can silently rewrite all 6,784 forms.
 
 ### Data shape (`verbs.json`)
@@ -44,10 +51,60 @@ verbecc has bugs, corrected in `build_verbs.py`:
 - `haber` tú imperative came back as the archaic `hé`; haber and gustar both carry `skip: ["cmd","neg"]` instead.
 Irregular verbs were hand-checked; not every one of the 128 verbs has been checked line by line. A 2026-11-20 audit confirmed 6,784 forms with no empty, missing or duplicate entries, hand-checked ~25 of the worst irregulars, and found `regularForms()` agreeing with the stored `type` on every verb. New corrections go in the FIXES dicts in `build_verbs.py`.
 
+### Data shape (`words.json`)
+`{w, pos, grp, tier: 1|2, senses: [{g, ex, en, blank?, plain?}], note?}`
+- `w` is the headword, or a multi-word expression (`o sea`, `de todas formas`).
+- `tier` 1 = constant in speech and must be automatic; 2 = common, worth owning next.
+- `senses` are ordered, most frequent use first. `g` is the gloss for that use, `ex` a Spanish
+  example, `en` its translation.
+- **`ex` must contain the headword** — the gap-fill drill blanks it out at runtime. Where the
+  example inflects it (`medio` -> *Media hectárea*), `blank` names the surface form to remove.
+  `build_words.py` fails the build otherwise, so a question with nothing missing cannot ship.
+- `blankOut()` removes **every** occurrence, not just the first: `ni ... ni` is correlative, and
+  blanking one copy would leave the answer in the sentence.
+- `plain: {ex, en, blank?}` — an everyday-vocabulary twin of the example, on the 41 senses whose
+  main example is about land, prices and paperwork. Authored in the `PLAIN` dict in
+  `words_list.py`, keyed by `(headword, sense index)`; `build_words.py` merges it in, validates it
+  by the same blanking rule, and **fails if a PLAIN key matches no sense**, so renaming a word or
+  reordering its senses cannot silently orphan one.
+
+### Two example sets, one progress record
+`Examples` on the Words page and in the drill panel switches between **Everyday** (the default)
+and **Land & paperwork**. The property examples are right for a learner whose Spanish happens in
+those conversations and wrong for anyone else — an example exists to isolate the word being
+drilled, and one carrying `lindero` and `escritura` puts three unknowns in front of someone who
+needed one. Measured: 41 of 90 examples had that problem; the everyday set has none.
+
+The SRS item is the **sense**, not the sentence (`w:<word>|<sense>|<mode>`), so switching sets
+shows a different sentence for the same item and never forks anyone's progress. Verified: the
+pool's ids are identical under both settings. Stored in `localStorage` as `esp.exset`.
+Both sets are searched on the Words page, so a word is findable whichever is on screen.
+
+### Why the list is what it is
+Not a frequency list. At 30-50% listening comprehension the blockers are not content nouns —
+those are often cognates or inferable. They are the glue: one-syllable connectors, discourse
+markers, and the handful of words (`ya`, `lo`, `se`, `que`, `como`) that do four unrelated jobs.
+Frequency rank puts `casa` and `ya` close together; only one of them is hard. The list is also
+hand-authored for provenance: published frequency lists and dictionary glosses carry licences
+that do not suit a product, which is the same problem `verbs.json` already has.
+
 ### Page features
 - **Book:** 13 chapters (0 intro … 11 hearing real Spanish, 12 Latin America vs. Spain). Each `<article class="chapter" id="chN" data-title="…">`; the TOC is built from these. Each ends with a `<details>` check-yourself section and links that preselect a tense on the sheet/drill (`data-sheet`, `data-drill`, `data-mode`).
 - **Verb sheet:** filter/search; forms that differ from the regular -ar/-er/-ir pattern are shown in red. This is computed in JS by `regularForms()`, not stored. Click a verb for a full card (`<dialog>`).
 - **Drills:** *Produce* (type the form; accent buttons; lenient-accent option) and *Recognize* (see a form, pick verb · tense · person; keys 1–4). Recognition uses a reverse index `FORMIDX` so ambiguous forms (e.g. *hablamos* present/preterite) accept any valid answer, and no wrong option shows the same form. Commands are excluded from Recognize. Leitner spaced repetition (`INTERVALS`: 0, 2 min, 10 min, 1 d, 3 d, 7 d, 21 d), weighted toward misses. 60-second sprint mode with best score.
+- **Words:** `#words`. The common-word reference, grouped, with every use shown as gloss +
+  Spanish example + translation. Search covers headwords, glosses, examples and notes; filters by
+  tier and group. Tap any example to hear it.
+- **Gap-fill** (drill mode `cloze`): a real sentence with the word blanked out and the English
+  underneath — the drill for *use* rather than meaning. Typed answer, same lenient-accent option
+  and accent buttons as Produce. The prompt says how many gaps there are when a word appears more
+  than once.
+- **Which use** (drill mode `sense`): a sentence, and the word's rival senses as the options. Only
+  words with more than one sense enter this pool, since with one sense there is nothing to tell
+  apart. The distractors are that word's *other* jobs, which is the actual confusion being
+  resolved. Keys 1-4 work, as in Recognize.
+- Word SRS ids are namespaced `w:<word>|<sense>|<mode>` so they can never collide with a verb id
+  (`<inf>|<tense>|<person>|<mode>`), and so the "my weak spots" verb filter ignores them.
 - **Phrases:** `PHRASES` array in the script (~65 phrases in 6 groups, including property/negotiation vocabulary) plus flashcards on the same SRS.
 - **Audio:** browser `speechSynthesis`, no hosted files. `pickVoice()` prefers a Latin American voice (es-MX, es-US, es-419, …) and falls back to anything that isn't es-ES. If no Spanish voice exists the two audio options hide themselves. Recognize can play the form and, with "Listen only", hide the text until you answer — `R` replays, "Slower" plays at rate 0.6. Produce speaks the correct answer after you check. Verb-card forms and phrases are tap-to-hear.
 - **Storage:** `localStorage` keys `esp.srs`, `esp.best`, `esp.days`, `esp.audio`, `esp.listen`, all in try/catch. Progress is per browser and does not sync. **Export / Import** on the drill page writes and reads `{app, version, exported, data:{srs,best,days}}`; import *merges* (per item, the copy with the higher `s` wins) and never replaces, so it is safe to import a file from another device. `esp.days` is capped at 400 entries.
