@@ -13,7 +13,7 @@ It is a static site, so it needs no build step and no server code.
 | `tools/verbs_list.py` | The verb list and English meanings, in rough frequency order |
 | `tools/build_verbs.py` | Regenerates `verbs.json` (`pip install -r requirements.txt`, then `python tools/build_verbs.py`) |
 | `words.json` | 54 common words and their 90 uses, with an example sentence for each. Hand-authored |
-| `tools/words_list.py` | The word data — add words here |
+| `tools/words_list.py` | The word data — add words here. `WORDS` is the list; `PLAIN` holds everyday rewordings of the examples that are about land and paperwork |
 | `tools/build_words.py` | Validates and regenerates `words.json` (`python3 tools/build_words.py`) |
 | `requirements.txt` | Pins verbecc 2.1.0 — the version that reproduces the committed `verbs.json` byte for byte |
 
@@ -44,6 +44,11 @@ The site appears at `https://<user>.github.io/<repo>/` a minute after each push.
   headword** — the gap-fill drill is made by blanking it out. If your example inflects the word
   (*Media hectárea* for `medio`), add `blank="Media"` to that sense. The builder refuses to emit a
   file that would produce a question with nothing missing, so a mistake here fails loudly.
+- **If your example uses land or paperwork vocabulary**, add an everyday twin to `PLAIN`, keyed by
+  `("word", sense index)`. Readers pick which set they see with **Examples**; the everyday set is
+  the default, because an example's job is to isolate the word being drilled rather than to teach
+  three new nouns at once. Progress is shared between the sets — the item is the sense, not the
+  sentence — and the builder fails if a `PLAIN` key matches no sense.
 - **Wrong conjugation:** add a correction to `PARTICIPLE_FIXES` or `COMMAND_FIXES` in `tools/build_verbs.py` (or add a new fix there), rerun, and check the verb's card on the site.
 
 Work on a branch and open a pull request so the others can try the change before it goes live.

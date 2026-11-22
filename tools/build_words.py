@@ -18,7 +18,7 @@ import sys
 import unicodedata
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from words_list import WORDS  # noqa: E402
+from words_list import WORDS, PLAIN  # noqa: E402
 
 OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "words.json")
 
@@ -38,6 +38,25 @@ def contains_headword(example, headword):
     """
     hay, needle = fold(example), fold(headword)
     return re.search(r"(?<![a-z])" + re.escape(needle) + r"(?![a-z])", hay) is not None
+
+
+def merge_plain(words):
+    """Attach each sense's everyday twin, and refuse keys that match no sense."""
+    errors, used = [], set()
+    for w in words:
+        for j, sn in enumerate(w["senses"]):
+            key = (w["w"], j)
+            if key not in PLAIN:
+                continue
+            used.add(key)
+            t = PLAIN[key]
+            sn["plain"] = {"ex": t[0], "en": t[1]}
+            if len(t) > 2:
+                sn["plain"]["blank"] = t[2]
+    for key in set(PLAIN) - used:
+        errors.append("PLAIN has %r, which matches no sense -- a renamed word or a "
+                      "reordered sense will silently orphan it" % (key,))
+    return errors
 
 
 def validate(words):
@@ -79,6 +98,17 @@ def validate(words):
                         if not s.get("blank") else "")
                 errors.append("%s: example %r does not contain %r, so no cloze can be "
                               "generated from it%s" % (at, s["ex"], target, hint))
+            # The everyday twin has to satisfy exactly the same rule, or switching example
+            # sets would quietly produce a gap-fill with nothing missing.
+            pl = s.get("plain")
+            if pl:
+                for field in ("ex", "en"):
+                    if not pl.get(field, "").strip():
+                        errors.append("%s plain: missing %s" % (at, field))
+                pt = pl.get("blank") or head
+                if pl.get("ex") and not contains_headword(pl["ex"], pt):
+                    errors.append("%s plain: example %r does not contain %r"
+                                  % (at, pl["ex"], pt))
 
     return errors
 
@@ -97,6 +127,8 @@ def render(words):
             d = {"g": s["g"], "ex": s["ex"], "en": s["en"]}
             if s.get("blank"):
                 d["blank"] = s["blank"]
+            if s.get("plain"):
+                d["plain"] = s["plain"]
             senses.append(json.dumps(d, ensure_ascii=False, sort_keys=False))
         lines.append('  "senses": [\n    ' + ",\n    ".join(senses) + "\n  ]"
                      + ("," if w.get("note") else ""))
@@ -107,7 +139,7 @@ def render(words):
 
 
 def main():
-    errors = validate(WORDS)
+    errors = merge_plain(WORDS) + validate(WORDS)
     if errors:
         print("words_list.py has %d problem(s):" % len(errors), file=sys.stderr)
         for e in errors:
@@ -122,7 +154,8 @@ def main():
                  [("w", w["w"]), ("pos", w["pos"]), ("grp", w["grp"]), ("tier", w["tier"]),
                   ("senses", [{k: v for k, v in
                                [("g", s["g"]), ("ex", s["ex"]), ("en", s["en"])]
-                               + ([("blank", s["blank"])] if s.get("blank") else [])}
+                               + ([("blank", s["blank"])] if s.get("blank") else [])
+                               + ([("plain", s["plain"])] if s.get("plain") else [])}
                               for s in w["senses"]])]
                  + ([("note", w["note"])] if w.get("note") else [])}
                 for w in WORDS]
@@ -137,6 +170,8 @@ def main():
     notes = sum(1 for w in WORDS if w.get("note"))
     print("words.json: %d words, %d senses, %d groups, %d notes" % (len(WORDS), senses, groups, notes))
     print("  tier 1: %d   tier 2: %d" % (tier1, len(WORDS) - tier1))
+    plains = sum(1 for w in WORDS for s in w["senses"] if s.get("plain"))
+    print("  %d senses carry an everyday twin of a property-flavoured example" % plains)
     blanks = sum(1 for w in WORDS for s in w["senses"] if s.get("blank"))
     print("  every example contains its blank target, so %d cloze items are generatable "
           "(%d via an explicit blank=)" % (senses, blanks))

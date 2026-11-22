@@ -52,7 +52,7 @@ verbecc has bugs, corrected in `build_verbs.py`:
 Irregular verbs were hand-checked; not every one of the 128 verbs has been checked line by line. A 2026-11-20 audit confirmed 6,784 forms with no empty, missing or duplicate entries, hand-checked ~25 of the worst irregulars, and found `regularForms()` agreeing with the stored `type` on every verb. New corrections go in the FIXES dicts in `build_verbs.py`.
 
 ### Data shape (`words.json`)
-`{w, pos, grp, tier: 1|2, senses: [{g, ex, en, blank?}], note?}`
+`{w, pos, grp, tier: 1|2, senses: [{g, ex, en, blank?, plain?}], note?}`
 - `w` is the headword, or a multi-word expression (`o sea`, `de todas formas`).
 - `tier` 1 = constant in speech and must be automatic; 2 = common, worth owning next.
 - `senses` are ordered, most frequent use first. `g` is the gloss for that use, `ex` a Spanish
@@ -62,6 +62,23 @@ Irregular verbs were hand-checked; not every one of the 128 verbs has been check
   `build_words.py` fails the build otherwise, so a question with nothing missing cannot ship.
 - `blankOut()` removes **every** occurrence, not just the first: `ni ... ni` is correlative, and
   blanking one copy would leave the answer in the sentence.
+- `plain: {ex, en, blank?}` — an everyday-vocabulary twin of the example, on the 41 senses whose
+  main example is about land, prices and paperwork. Authored in the `PLAIN` dict in
+  `words_list.py`, keyed by `(headword, sense index)`; `build_words.py` merges it in, validates it
+  by the same blanking rule, and **fails if a PLAIN key matches no sense**, so renaming a word or
+  reordering its senses cannot silently orphan one.
+
+### Two example sets, one progress record
+`Examples` on the Words page and in the drill panel switches between **Everyday** (the default)
+and **Land & paperwork**. The property examples are right for a learner whose Spanish happens in
+those conversations and wrong for anyone else — an example exists to isolate the word being
+drilled, and one carrying `lindero` and `escritura` puts three unknowns in front of someone who
+needed one. Measured: 41 of 90 examples had that problem; the everyday set has none.
+
+The SRS item is the **sense**, not the sentence (`w:<word>|<sense>|<mode>`), so switching sets
+shows a different sentence for the same item and never forks anyone's progress. Verified: the
+pool's ids are identical under both settings. Stored in `localStorage` as `esp.exset`.
+Both sets are searched on the Words page, so a word is findable whichever is on screen.
 
 ### Why the list is what it is
 Not a frequency list. At 30-50% listening comprehension the blockers are not content nouns —

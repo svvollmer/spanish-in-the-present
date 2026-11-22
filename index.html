@@ -784,6 +784,12 @@ legend{font-family:var(--ui);font-size:12px;text-transform:uppercase;letter-spac
     <label class="chip" style="margin-top:6px"><input type="checkbox" id="d-sprint"> 60-second sprint</label>
     <label class="chip" style="margin-top:6px" id="d-audio-wrap"><input type="checkbox" id="d-audio"> Speak the Spanish aloud</label>
     <label class="chip" style="margin-top:6px" id="d-listen-wrap"><input type="checkbox" id="d-listen"> Listen only &mdash; hide the text</label>
+    <label class="chip" style="margin-top:6px" id="d-exset-wrap">Examples
+      <select id="d-exset" style="margin-left:6px;border:1px solid var(--rule);background:var(--paper)">
+        <option value="plain">Everyday</option>
+        <option value="real">Land &amp; paperwork</option>
+      </select>
+    </label>
   </fieldset>
   <button class="btn primary" id="d-start" style="width:100%">Start</button>
   <p class="note" id="d-best"></p>
@@ -804,10 +810,12 @@ legend{font-family:var(--ui);font-size:12px;text-transform:uppercase;letter-spac
 <section class="view" id="v-words">
 <div class="eyebrow">Reference</div>
 <h1>Common words, and what they do</h1>
-<p class="lede">Not the most frequent words &mdash; the most <em>useful</em> ones. At your level the
-nouns are rarely the problem; what buries a sentence is the glue: the one-syllable connectors, the
-markers people use to think out loud, and the handful of words that quietly do four jobs each.
-Tap any example to hear it.</p>
+<p class="lede">Not the most frequent words &mdash; the most <em>useful</em> ones. Once you have
+some vocabulary the nouns are rarely what defeats you; what buries a sentence is the glue: the
+one-syllable connectors, the markers people use to think out loud, and the handful of words that
+quietly do four jobs each.
+Tap any example to hear it. <strong>Examples</strong> switches between everyday sentences and the
+land-and-paperwork ones &mdash; same words, same progress, different scenery.</p>
 <div class="controls">
   <label for="w-q">Find<input type="search" id="w-q" placeholder="ya, anyway, since…"></label>
   <label for="w-tier">Show<select id="w-tier">
@@ -816,6 +824,10 @@ Tap any example to hear it.</p>
     <option value="2">Tier 2 &mdash; common</option>
   </select></label>
   <label for="w-grp">Group<select id="w-grp"><option value="all">All groups</option></select></label>
+  <label for="w-exset">Examples<select id="w-exset">
+    <option value="plain">Everyday</option>
+    <option value="real">Land &amp; paperwork</option>
+  </select></label>
   <span class="legend" id="w-count"></span>
 </div>
 <div id="wordlist"></div>
@@ -1303,7 +1315,20 @@ function blankOut(ex,target){
   }
   return out+rest;
 }
-const clozeTarget=(w,sn)=>sn.blank||w.w;
+/* Which example a sense shows.
+   41 of the 90 examples are about land, prices and paperwork, which is exactly right for a
+   learner whose Spanish happens in those conversations and wrong for everyone else: an example
+   exists to isolate the word being drilled, and one carrying `lindero` and `escritura` puts
+   three unknowns in front of someone who needed one. Those senses have an everyday twin.
+
+   The SRS item is the sense, not the sentence (`w:<word>|<sense>|<mode>`), so switching sets
+   never forks anyone's progress -- the same item simply shows a different sentence. */
+const exSet=()=>store.get("exset","plain");
+function exOf(w,sn){
+  const p=exSet()==="plain"&&sn.plain?sn.plain:sn;
+  return {ex:p.ex,en:p.en,blank:p.blank||w.w};
+}
+const clozeTarget=(w,sn)=>exOf(w,sn).blank;
 
 function initWords(){
   WG=[...new Set(WORDS.map(w=>w.grp))];
@@ -1313,6 +1338,11 @@ function initWords(){
   ["#w-q","#w-tier","#w-grp"].forEach(sel=>{
     const el=$(sel); el.addEventListener(el.tagName==="SELECT"?"change":"input",renderWords);
   });
+  // One preference, two places to set it; keep them in step.
+  $("#w-exset").value=exSet(); $("#d-exset").value=exSet();
+  const setExSet=v=>{store.set("exset",v);$("#w-exset").value=v;$("#d-exset").value=v;renderWords();if(isWordMode(MODE))idleScreen()};
+  $("#w-exset").addEventListener("change",e=>setExSet(e.target.value));
+  $("#d-exset").addEventListener("change",e=>setExSet(e.target.value));
   $("#wordlist").addEventListener("click",e=>{
     const t=e.target.closest("[data-say]"); if(t)say(t.dataset.say);
   });
@@ -1321,8 +1351,9 @@ function initWords(){
 
 function wordMatches(w,q){
   if(!q)return true;
+  // Search both example sets, so a word is findable whichever set is on screen.
   const hay=unaccent([w.w,w.pos,w.grp,w.note||"",
-    ...w.senses.flatMap(sn=>[sn.g,sn.ex,sn.en])].join(" "));
+    ...w.senses.flatMap(sn=>[sn.g,sn.ex,sn.en,sn.plain?sn.plain.ex:"",sn.plain?sn.plain.en:""])].join(" "));
   return hay.includes(unaccent(q));
 }
 
@@ -1334,11 +1365,11 @@ function renderWords(){
   $("#wordlist").innerHTML=groups.map(g=>`<section class="wgrp"><h2>${esc(g)}</h2>${
     shown.filter(w=>w.grp===g).map(w=>`<article class="wcard">
       <div class="whead"><span class="w es" lang="es">${esc(w.w)}</span><span class="pos">${esc(w.pos)}</span><span class="wtier t${w.tier}">tier ${w.tier}</span></div>
-      ${w.senses.map(sn=>`<div class="wsense">
+      ${w.senses.map(sn=>{const e=exOf(w,sn);return `<div class="wsense">
         <div class="g">${esc(sn.g)}</div>
-        <div class="ex es say" lang="es" data-say="${esc(sn.ex)}">${esc(sn.ex)}</div>
-        <div class="exen">${esc(sn.en)}</div>
-      </div>`).join("")}
+        <div class="ex es say" lang="es" data-say="${esc(e.ex)}">${esc(e.ex)}</div>
+        <div class="exen">${esc(e.en)}</div>
+      </div>`}).join("")}
       ${w.note?`<div class="vnote">${esc(w.note)}</div>`:""}
     </article>`).join("")
   }</section>`).join("")||`<p class="note">Nothing matches that.</p>`;
@@ -1359,15 +1390,15 @@ function buildWordPool(){
 }
 
 function showCloze(it){
-  const w=it.w, sn=it.sn, ans=clozeTarget(w,sn);
-  const parts=blankOut(sn.ex,ans).split("\u0001");
+  const w=it.w, sn=it.sn, exm=exOf(w,sn), ans=exm.blank;
+  const parts=blankOut(exm.ex,ans).split("\u0001");
   const gap=`<span class="gap">&nbsp;&nbsp;&nbsp;</span>`;
   const sentence=parts.map(esc).join(gap);
   const gaps=parts.length-1;
   $("#d-area").innerHTML=`<div>${header()}</div>
    <p class="prompt">${gaps>1?`The same word is missing ${gaps} times`:"One word is missing"}</p>
    <p class="cloze es" lang="es">${sentence}</p>
-   <p class="person">${esc(sn.en)} <span class="note">(${esc(w.pos)})</span></p>
+   <p class="person">${esc(exm.en)} <span class="note">(${esc(w.pos)})</span></p>
    <form class="answer-row" id="pf" autocomplete="off"><input id="pa" aria-label="The missing word" autocapitalize="off" spellcheck="false" autocorrect="off"><button class="btn primary">Check</button></form>
    <div class="accents">${["á","é","í","ó","ú","ñ","ü"].map(c=>`<button type="button" data-c="${c}">${c}</button>`).join("")}</div>
    <div class="fb" id="fb"></div>`;
@@ -1388,11 +1419,11 @@ function showCloze(it){
     $("#fb").innerHTML=(counted?`<span class="ok">Right.</span> ${exact?"":`Accents: <b lang="es">${esc(ans)}</b>`}`
       :ok?`<span class="no">Check the accent:</span> <b lang="es">${esc(ans)}</b>`
       :`<span class="no">Not quite.</span> It's <b lang="es">${esc(ans)}</b>`)
-      +`<div class="row"><span lang="es">${esc(sn.ex)}</span></div>`
+      +`<div class="row"><span lang="es">${esc(exm.ex)}</span></div>`
       +`<div class="row">${esc(w.w)} here means <b>${esc(sn.g)}</b>.</div>`
       +(w.note?`<div class="row note">${esc(w.note)}</div>`:"")
       +`<div class="row">Enter for the next one.</div>`;
-    if(audioOn())say(sn.ex);
+    if(audioOn())say(exm.ex);
     inp.readOnly=true;$("#pf button").textContent="Next";$("#pf button").focus();
     renderStats();
     if(S.sprint&&counted)setTimeout(()=>{if(S&&S.cur===it)next()},350);
@@ -1400,18 +1431,18 @@ function showCloze(it){
 }
 
 function showSense(it){
-  const w=it.w, sn=it.sn;
+  const w=it.w, sn=it.sn, exm=exOf(w,sn);
   // Distractors are this word's OTHER uses, which is the actual confusion to resolve.
   const opts=w.senses.map((s,i)=>({s,i})).sort(()=>Math.random()-.5);
   const spoken=audioOn();
-  S.opts=opts.length; S.sayText=sn.ex;
+  S.opts=opts.length; S.sayText=exm.ex;
   $("#d-area").innerHTML=`<div>${header()}</div>
    <p class="prompt">Which job is <span class="es" lang="es">${esc(w.w)}</span> doing here?</p>
-   <p class="cloze es" lang="es">${esc(sn.ex)}</p>
+   <p class="cloze es" lang="es">${esc(exm.ex)}</p>
    ${spoken?`<div class="go" style="margin:0 0 12px"><button class="btn" type="button" id="d-replay">Play again <kbd>R</kbd></button><button class="btn" type="button" id="d-slow">Slower</button></div>`:""}
    <div class="opts">${opts.map((o,n)=>`<button class="opt" data-n="${n}"><kbd>${n+1}</kbd>${esc(o.s.g)}</button>`).join("")}</div>
    <div class="fb" id="fb"></div>`;
-  if(spoken){say(sn.ex);$("#d-replay").onclick=()=>say(sn.ex);$("#d-slow").onclick=()=>say(sn.ex,.6)}
+  if(spoken){say(exm.ex);$("#d-replay").onclick=()=>say(exm.ex);$("#d-slow").onclick=()=>say(exm.ex,.6)}
   let done=false;
   const pick=n=>{
     if(done)return; done=true;
@@ -1420,7 +1451,7 @@ function showSense(it){
     grade(it.id,ok);
     $$(".opt").forEach((b,j)=>{if(opts[j].i===it.si)b.classList.add("right");else if(j===n)b.classList.add("wrong")});
     $("#fb").innerHTML=(ok?`<span class="ok">Right.</span>`:`<span class="no">Not that one.</span>`)
-      +`<div class="row">${esc(sn.en)}</div>`
+      +`<div class="row">${esc(exm.en)}</div>`
       +(w.note?`<div class="row note">${esc(w.note)}</div>`:"")
       +`<div class="row">Enter for the next one.</div>`;
     renderStats();

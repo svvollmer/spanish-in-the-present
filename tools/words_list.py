@@ -455,3 +455,60 @@ WORDS = [
                   ex="Estoy pendiente del pago.", en="I'm keeping an eye on the payment."),
          ]),
 ]
+
+
+# ---------------------------------------------------------------------------------------------
+# Everyday versions of the examples that lean on land, prices and paperwork.
+#
+# Those examples are right for a learner whose Spanish happens in exactly those conversations,
+# and wrong for everyone else: an example's job is to isolate the word being drilled, and a
+# sentence carrying `lindero`, `escritura` and `agrimensor` puts three unknowns in front of
+# someone who only needed one. 41 of the 90 examples had that problem.
+#
+# So each of them gets a plain-vocabulary twin, and the reader chooses which set they see. The
+# SRS item is the *sense*, not the sentence, so switching sets does not fork anyone's progress.
+#
+# Keyed by (headword, sense index) -> (spanish, english) or (spanish, english, blank).
+PLAIN = {
+    ("que", 1): ("La casa que vimos ayer.", "The house we saw yesterday."),
+    ("ya", 0): ("Ya comimos.", "We already ate."),
+    ("se", 0): ("Aquí se habla español.", "Spanish is spoken here."),
+    ("se", 1): ("Se me olvidó el teléfono.", "I forgot my phone."),
+    ("se", 3): ("Se lo di a mi hermano.", "I gave it to my brother."),
+    ("como", 0): ("Es como mi casa.", "It's like my house."),
+    ("mismo", 0): ("Es el mismo día.", "It's the same day."),
+    ("algo", 0): ("¿Quieres algo de comer?", "Do you want something to eat?"),
+    ("tanto", 1): ("No hay tantos turistas hoy.", "There aren't that many tourists today.", "tantos"),
+    ("por", 0): ("Lo hice por ti.", "I did it for you."),
+    ("por", 3): ("Escrito por mi hermana.", "Written by my sister."),
+    ("para", 2): ("Para entrar necesito la llave.", "To get in, I need the key."),
+    ("sino", 0): ("No es café, sino té.", "It isn't coffee, it's tea."),
+    ("mientras", 0): ("Mientras comíamos, llamó mi madre.", "While we were eating, my mother called."),
+    ("mientras", 1): ("Mientras no llegue, esperamos.", "As long as he doesn't arrive, we'll wait."),
+    ("según", 0): ("Según mi hermano, está cerrado.", "According to my brother, it's closed."),
+    ("en cuanto", 0): ("En cuanto llegue, te llamo.", "As soon as he arrives, I'll call you."),
+    ("ni", 1): ("Ni café ni té, gracias.", "Neither coffee nor tea, thanks."),
+    ("además", 0): ("Además, es muy caro.", "Besides, it's very expensive."),
+    ("encima", 1): ("Y encima llegó tarde.", "And on top of that, he turned up late."),
+    ("ya que", 0): ("Ya que estás aquí, ayúdame.", "Since you're here, give me a hand."),
+    ("de todas formas", 0): ("De todas formas hay que ir.", "We have to go anyway."),
+    ("cada", 0): ("Cada niño tiene su libro.", "Each child has their own book."),
+    ("algún", 0): ("¿Hay algún problema?", "Is there a problem?"),
+    ("otro", 0): ("Vimos otro más barato.", "We saw another, cheaper one."),
+    ("propio", 0): ("Tiene su propio cuarto.", "She has her own room."),
+    ("propio", 1): ("Me lo dijo el propio profesor.", "The teacher himself told me."),
+    ("demás", 0): ("Los demás llegan mañana.", "The others arrive tomorrow."),
+    ("varios", 0): ("Hay varios restaurantes cerca.", "There are several restaurants nearby."),
+    ("medio", 0): ("Media hora.", "Half an hour.", "Media"),
+    ("hacia", 0): ("Vamos hacia el centro.", "We're heading towards the centre."),
+    ("desde", 0): ("Se ve desde la ventana.", "You can see it from the window."),
+    ("hasta", 0): ("El tren llega hasta la playa.", "The train goes as far as the beach."),
+    ("hasta", 1): ("Hasta mi hermano vino.", "Even my brother came."),
+    ("allá", 0): ("El baño está allá atrás.", "The toilet is back over there."),
+    ("es que", 0): ("Es que no tengo tiempo.", "The thing is, I don't have time."),
+    ("bueno", 0): ("Bueno, entonces nos vemos el lunes.", "Right, so we'll see each other on Monday."),
+    ("nomás", 0): ("Es nomás un minuto.", "It's just a minute."),
+    ("de repente", 1): ("De repente vamos mañana.", "Maybe we'll go tomorrow."),
+    ("pendiente", 0): ("Está pendiente la respuesta.", "The answer is still outstanding."),
+    ("pendiente", 1): ("Estoy pendiente del teléfono.", "I'm keeping an eye on my phone."),
+}
