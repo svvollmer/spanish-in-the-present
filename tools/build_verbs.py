@@ -6,7 +6,7 @@
 Conjugations come from the verbecc library, then a few known library errors are corrected
 below (FIXES). If you spot a wrong form on the site, add a correction here and rerun.
 """
-import json, logging, sys, os
+import json, logging, os, re, sys
 logging.disable(logging.CRITICAL)
 from verbecc import CompleteConjugator
 sys.path.insert(0, os.path.dirname(__file__))
@@ -25,6 +25,8 @@ PARTICIPLE_FIXES = {"comprender":"comprendido","nacer":"nacido","elegir":"elegid
 COMMAND_FIXES = {("valer",0):"vale", ("ir",2):"vamos"}
 # verbecc returns the impersonal "hay" for haber's él form; as an auxiliary it is "ha" (ha hablado).
 FORM_FIXES = {("haber","pres",2): "ha"}
+
+from verb_uses import USES, EXTRA_FORMS   # noqa: E402  (hand-authored, like the fixes above)
 # Tenses a grammar lists but nobody uses: not shown on the sheet, not drilled.
 # haber's imperative is archaic ("hé"); gustar's is not used (you'd say "que te guste").
 SKIP = {"haber": ["cmd","neg"], "gustar": ["cmd","neg"]}
@@ -84,6 +86,8 @@ for inf, en in VERBS:
     if inf in SKIP: v["skip"] = SKIP[inf]
     if inf in DATIVE: v["dative"] = True
     if inf in NOTES: v["note"] = NOTES[inf]
+    if inf in USES:
+        v["uses"] = [{"u": u, "ex": ex, "en": en} for u, ex, en in USES[inf]]
     v["type"] = "regular" if tpl in REGULAR else ("spelling" if tpl in SPELLING else "irregular")
     out.append(v)
 
@@ -99,6 +103,11 @@ def render(verbs):
                  f'  "ger":{j(v["ger"])}, "part":{j(v["part"])},']
         for k in ("dative", "skip", "note"):
             if k in v: lines.append(f'  {j(k)}:{j(v[k])},')
+        if "uses" in v:
+            lines.append('  "uses":[')
+            for n, u in enumerate(v["uses"]):
+                lines.append(f'   {j(u)}' + ("," if n < len(v["uses"]) - 1 else ""))
+            lines.append('  ],')
         lines.append('  "t":{')
         ks = list(v["t"])
         for n, k in enumerate(ks):
@@ -106,6 +115,70 @@ def render(verbs):
         lines += ['  }', ' }']
         chunks.append("\n".join(lines))
     return "[\n" + ",\n".join(chunks) + "\n]\n"
+
+
+def check_uses(verbs):
+    """Every use sentence must contain a real form of the verb it is filed under.
+
+    Cheap to check and worth checking: a sentence pasted under the wrong verb, or one that only
+    mentions the verb in its English translation, would teach the wrong thing and nothing else
+    would notice.
+    """
+    import unicodedata as _ud
+
+    def fold(x):
+        return "".join(c for c in _ud.normalize("NFD", x.lower())
+                       if _ud.category(c) != "Mn")
+
+    problems = []
+    index = {v["inf"]: v for v in verbs}
+
+    for inf, uses in USES.items():
+        if inf not in index:
+            problems.append("%s: not in verbs_list.py, so its uses would be dropped silently" % inf)
+            continue
+        v = index[inf]
+        forms = {fold(v["inf"]), fold(v["ger"]), fold(v["part"])}
+        for row in v["t"].values():
+            for f in row:
+                for tok in fold(f).split():
+                    if tok:
+                        forms.add(tok)
+        for extra in EXTRA_FORMS.get(inf, []):
+            forms.add(fold(extra))
+        # Forms also appear with pronouns stuck on the end: déjame, cuéntame, ponte, dímelo.
+        # Match the suffix against the actual clitics rather than guessing by length -- a length
+        # rule rejects the two-letter imperatives (di, ve, da, sé) that are the commonest of all.
+        clitics = ("me", "te", "se", "lo", "la", "le", "nos", "os", "los", "las", "les")
+
+        def is_clitic_tail(tail):
+            while tail:
+                for c in sorted(clitics, key=len, reverse=True):
+                    if tail.startswith(c):
+                        tail = tail[len(c):]
+                        break
+                else:
+                    return False
+            return True
+
+        for u, ex, en in uses:
+            words = [w for w in re.findall(r"[\w\u00c0-\u024f]+", fold(ex)) if w]
+            hit = any(w in forms or any(w.startswith(f) and is_clitic_tail(w[len(f):])
+                                        for f in forms if f)
+                      for w in words)
+            if not hit:
+                problems.append("%s: %r contains no form of the verb" % (inf, ex))
+            if not u.strip() or not en.strip():
+                problems.append("%s: %r has an empty label or translation" % (inf, ex))
+    return problems
+
+
+_problems = check_uses(out)
+if _problems:
+    print("verb_uses.py has %d problem(s):" % len(_problems), file=sys.stderr)
+    for _p in _problems:
+        print("  - " + _p, file=sys.stderr)
+    sys.exit(1)
 
 text = render(out)
 assert json.loads(text) == out, "pretty-printer changed the data"

@@ -2,6 +2,11 @@
  {
   "inf":"ser", "en":"to be (identity, traits)", "type":"irregular",
   "ger":"siendo", "part":"sido",
+  "uses":[
+   {"u":"who or what something is","ex":"Es ingeniero.","en":"He's an engineer."},
+   {"u":"where someone is from","ex":"Somos de Panamá.","en":"We're from Panama."},
+   {"u":"when an event happens","ex":"La reunión es a las tres.","en":"The meeting is at three."}
+  ],
   "t":{
    "pres":["soy","eres","es","somos","son"],
    "pret":["fui","fuiste","fue","fuimos","fueron"],
@@ -19,6 +24,11 @@
  {
   "inf":"estar", "en":"to be (state, location)", "type":"irregular",
   "ger":"estando", "part":"estado",
+  "uses":[
+   {"u":"where something is","ex":"¿Dónde está el baño?","en":"Where's the toilet?"},
+   {"u":"how someone is right now","ex":"Está cansado.","en":"He's tired."},
+   {"u":"a state that could change","ex":"La tienda está cerrada.","en":"The shop is closed."}
+  ],
   "t":{
    "pres":["estoy","estás","está","estamos","están"],
    "pret":["estuve","estuviste","estuvo","estuvimos","estuvieron"],
@@ -38,6 +48,11 @@
   "ger":"habiendo", "part":"habido",
   "skip":["cmd","neg"],
   "note":"Auxiliary only: he hablado, había llegado. For \"there is / there are\" use the impersonal hay — había, hubo, habrá — never ha.",
+  "uses":[
+   {"u":"there is / there are — always 'hay', never 'hays'","ex":"Hay dos cuartos.","en":"There are two rooms."},
+   {"u":"the auxiliary for 'have done'","ex":"Ha llamado tres veces.","en":"He's called three times."},
+   {"u":"hay que + infinitive = one has to","ex":"Hay que esperar.","en":"We'll have to wait."}
+  ],
   "t":{
    "pres":["he","has","ha","hemos","han"],
    "pret":["hube","hubiste","hubo","hubimos","hubieron"],
@@ -55,6 +70,11 @@
  {
   "inf":"tener", "en":"to have", "type":"irregular",
   "ger":"teniendo", "part":"tenido",
+  "uses":[
+   {"u":"states English does with 'be'","ex":"Tengo hambre.","en":"I'm hungry."},
+   {"u":"age","ex":"Tengo cuarenta años.","en":"I'm forty."},
+   {"u":"tener que = have to","ex":"Tengo que irme.","en":"I have to go."}
+  ],
   "t":{
    "pres":["tengo","tienes","tiene","tenemos","tienen"],
    "pret":["tuve","tuviste","tuvo","tuvimos","tuvieron"],
@@ -72,6 +92,11 @@
  {
   "inf":"hacer", "en":"to do, to make", "type":"irregular",
   "ger":"haciendo", "part":"hecho",
+  "uses":[
+   {"u":"weather","ex":"Hace frío.","en":"It's cold."},
+   {"u":"ago","ex":"Hace dos años.","en":"Two years ago."},
+   {"u":"do or make","ex":"¿Qué haces?","en":"What are you doing?"}
+  ],
   "t":{
    "pres":["hago","haces","hace","hacemos","hacen"],
    "pret":["hice","hiciste","hizo","hicimos","hicieron"],
@@ -89,6 +114,10 @@
  {
   "inf":"poder", "en":"to be able to, can", "type":"irregular",
   "ger":"pudiendo", "part":"podido",
+  "uses":[
+   {"u":"can, be able to","ex":"¿Puedes ayudarme?","en":"Can you help me?"},
+   {"u":"in the preterite it means managed to","ex":"Pude entrar.","en":"I managed to get in."}
+  ],
   "t":{
    "pres":["puedo","puedes","puede","podemos","pueden"],
    "pret":["pude","pudiste","pudo","pudimos","pudieron"],
@@ -106,6 +135,10 @@
  {
   "inf":"decir", "en":"to say, to tell", "type":"irregular",
   "ger":"diciendo", "part":"dicho",
+  "uses":[
+   {"u":"say, tell","ex":"¿Qué dijiste?","en":"What did you say?"},
+   {"u":"dime = tell me","ex":"Dime la verdad.","en":"Tell me the truth."}
+  ],
   "t":{
    "pres":["digo","dices","dice","decimos","dicen"],
    "pret":["dije","dijiste","dijo","dijimos","dijeron"],
@@ -123,6 +156,10 @@
  {
   "inf":"ir", "en":"to go", "type":"irregular",
   "ger":"yendo", "part":"ido",
+  "uses":[
+   {"u":"ir a + infinitive = going to","ex":"Voy a llamarla.","en":"I'm going to call her."},
+   {"u":"how things are going","ex":"¿Cómo te va?","en":"How's it going?"}
+  ],
   "t":{
    "pres":["voy","vas","va","vamos","van"],
    "pret":["fui","fuiste","fue","fuimos","fueron"],
@@ -140,6 +177,10 @@
  {
   "inf":"ver", "en":"to see", "type":"irregular",
   "ger":"viendo", "part":"visto",
+  "uses":[
+   {"u":"see","ex":"¿Ves la diferencia?","en":"Can you see the difference?"},
+   {"u":"nos vemos = see you","ex":"Nos vemos el lunes.","en":"See you Monday."}
+  ],
   "t":{
    "pres":["veo","ves","ve","vemos","ven"],
    "pret":["vi","viste","vio","vimos","vieron"],
@@ -157,6 +198,11 @@
  {
   "inf":"dar", "en":"to give", "type":"irregular",
   "ger":"dando", "part":"dado",
+  "uses":[
+   {"u":"da igual = it makes no difference","ex":"Da igual.","en":"It doesn't matter."},
+   {"u":"a window or door facing something","ex":"La ventana da al patio.","en":"The window faces the yard."},
+   {"u":"give you a feeling","ex":"Me dio miedo.","en":"It scared me."}
+  ],
   "t":{
    "pres":["doy","das","da","damos","dan"],
    "pret":["di","diste","dio","dimos","dieron"],
@@ -174,6 +220,11 @@
  {
   "inf":"saber", "en":"to know (facts)", "type":"irregular",
   "ger":"sabiendo", "part":"sabido",
+  "uses":[
+   {"u":"know a fact","ex":"No sé su nombre.","en":"I don't know his name."},
+   {"u":"know how to do something","ex":"¿Sabes nadar?","en":"Can you swim?"},
+   {"u":"in the preterite it means found out","ex":"Lo supe ayer.","en":"I found out yesterday."}
+  ],
   "t":{
    "pres":["sé","sabes","sabe","sabemos","saben"],
    "pret":["supe","supiste","supo","supimos","supieron"],
@@ -191,6 +242,10 @@
  {
   "inf":"querer", "en":"to want, to love", "type":"irregular",
   "ger":"queriendo", "part":"querido",
+  "uses":[
+   {"u":"want","ex":"Quiero un café.","en":"I want a coffee."},
+   {"u":"negative preterite means refused","ex":"No quiso venir.","en":"He refused to come."}
+  ],
   "t":{
    "pres":["quiero","quieres","quiere","queremos","quieren"],
    "pret":["quise","quisiste","quiso","quisimos","quisieron"],
@@ -208,6 +263,10 @@
  {
   "inf":"llegar", "en":"to arrive", "type":"spelling",
   "ger":"llegando", "part":"llegado",
+  "uses":[
+   {"u":"arrive","ex":"Llegó tarde.","en":"He arrived late."},
+   {"u":"llegar a = reach something","ex":"Llegamos a un acuerdo.","en":"We reached an agreement."}
+  ],
   "t":{
    "pres":["llego","llegas","llega","llegamos","llegan"],
    "pret":["llegué","llegaste","llegó","llegamos","llegaron"],
@@ -225,6 +284,11 @@
  {
   "inf":"pasar", "en":"to pass, to happen", "type":"regular",
   "ger":"pasando", "part":"pasado",
+  "uses":[
+   {"u":"happen","ex":"¿Qué pasó?","en":"What happened?"},
+   {"u":"come in","ex":"Pase, por favor.","en":"Come in, please."},
+   {"u":"go past or drop by","ex":"Pasé por tu casa.","en":"I went by your place."}
+  ],
   "t":{
    "pres":["paso","pasas","pasa","pasamos","pasan"],
    "pret":["pasé","pasaste","pasó","pasamos","pasaron"],
@@ -242,6 +306,10 @@
  {
   "inf":"deber", "en":"to owe, should", "type":"regular",
   "ger":"debiendo", "part":"debido",
+  "uses":[
+   {"u":"ought to, must","ex":"Debo irme.","en":"I should go."},
+   {"u":"deber de = probably","ex":"Debe de estar cansado.","en":"He must be tired."}
+  ],
   "t":{
    "pres":["debo","debes","debe","debemos","deben"],
    "pret":["debí","debiste","debió","debimos","debieron"],
@@ -259,6 +327,11 @@
  {
   "inf":"poner", "en":"to put", "type":"irregular",
   "ger":"poniendo", "part":"puesto",
+  "uses":[
+   {"u":"put","ex":"Pon la mesa.","en":"Set the table."},
+   {"u":"ponerse = become, suddenly","ex":"Se puso nervioso.","en":"He got nervous."},
+   {"u":"ponerse = put clothes on","ex":"Ponte el abrigo.","en":"Put your coat on."}
+  ],
   "t":{
    "pres":["pongo","pones","pone","ponemos","ponen"],
    "pret":["puse","pusiste","puso","pusimos","pusieron"],
@@ -276,6 +349,10 @@
  {
   "inf":"parecer", "en":"to seem", "type":"irregular",
   "ger":"pareciendo", "part":"parecido",
+  "uses":[
+   {"u":"seem","ex":"Parece caro.","en":"It looks expensive."},
+   {"u":"what someone thinks of something","ex":"¿Qué te parece?","en":"What do you think?"}
+  ],
   "t":{
    "pres":["parezco","pareces","parece","parecemos","parecen"],
    "pret":["parecí","pareciste","pareció","parecimos","parecieron"],
@@ -293,6 +370,11 @@
  {
   "inf":"quedar", "en":"to stay, to remain", "type":"regular",
   "ger":"quedando", "part":"quedado",
+  "uses":[
+   {"u":"arrange to meet","ex":"Quedamos a las ocho.","en":"We're meeting at eight."},
+   {"u":"have left","ex":"Me quedan dos.","en":"I have two left."},
+   {"u":"be situated","ex":"Queda lejos.","en":"It's a long way away."}
+  ],
   "t":{
    "pres":["quedo","quedas","queda","quedamos","quedan"],
    "pret":["quedé","quedaste","quedó","quedamos","quedaron"],
@@ -310,6 +392,9 @@
  {
   "inf":"creer", "en":"to believe", "type":"spelling",
   "ger":"creyendo", "part":"creído",
+  "uses":[
+   {"u":"think, believe","ex":"Creo que sí.","en":"I think so."}
+  ],
   "t":{
    "pres":["creo","crees","cree","creemos","creen"],
    "pret":["creí","creíste","creyó","creímos","creyeron"],
@@ -344,6 +429,11 @@
  {
   "inf":"llevar", "en":"to carry, to wear", "type":"regular",
   "ger":"llevando", "part":"llevado",
+  "uses":[
+   {"u":"how long you have been somewhere","ex":"Llevo dos años aquí.","en":"I've been here two years."},
+   {"u":"give someone a lift, take something along","ex":"¿Me llevas?","en":"Can you give me a lift?"},
+   {"u":"be wearing","ex":"Lleva una chaqueta azul.","en":"He's wearing a blue jacket."}
+  ],
   "t":{
    "pres":["llevo","llevas","lleva","llevamos","llevan"],
    "pret":["llevé","llevaste","llevó","llevamos","llevaron"],
@@ -361,6 +451,11 @@
  {
   "inf":"dejar", "en":"to leave, to let", "type":"regular",
   "ger":"dejando", "part":"dejado",
+  "uses":[
+   {"u":"leave something behind","ex":"Dejé el libro en casa.","en":"I left the book at home."},
+   {"u":"let someone do something","ex":"Déjame ver.","en":"Let me see."},
+   {"u":"dejar de = stop doing","ex":"Dejó de fumar.","en":"He stopped smoking."}
+  ],
   "t":{
    "pres":["dejo","dejas","deja","dejamos","dejan"],
    "pret":["dejé","dejaste","dejó","dejamos","dejaron"],
@@ -378,6 +473,10 @@
  {
   "inf":"seguir", "en":"to follow, to continue", "type":"irregular",
   "ger":"siguiendo", "part":"seguido",
+  "uses":[
+   {"u":"still be doing something","ex":"Sigue lloviendo.","en":"It's still raining."},
+   {"u":"keep going, carry straight on","ex":"Siga recto.","en":"Carry straight on."}
+  ],
   "t":{
    "pres":["sigo","sigues","sigue","seguimos","siguen"],
    "pret":["seguí","seguiste","siguió","seguimos","siguieron"],
@@ -395,6 +494,10 @@
  {
   "inf":"encontrar", "en":"to find", "type":"irregular",
   "ger":"encontrando", "part":"encontrado",
+  "uses":[
+   {"u":"find","ex":"No encuentro las llaves.","en":"I can't find my keys."},
+   {"u":"encontrarse = feel, or run into someone","ex":"Me encontré con tu hermana.","en":"I ran into your sister."}
+  ],
   "t":{
    "pres":["encuentro","encuentras","encuentra","encontramos","encuentran"],
    "pret":["encontré","encontraste","encontró","encontramos","encontraron"],
@@ -412,6 +515,10 @@
  {
   "inf":"llamar", "en":"to call", "type":"regular",
   "ger":"llamando", "part":"llamado",
+  "uses":[
+   {"u":"call someone","ex":"Te llamo mañana.","en":"I'll call you tomorrow."},
+   {"u":"llamarse = be called","ex":"Me llamo Ana.","en":"My name is Ana."}
+  ],
   "t":{
    "pres":["llamo","llamas","llama","llamamos","llaman"],
    "pret":["llamé","llamaste","llamó","llamamos","llamaron"],
@@ -429,6 +536,10 @@
  {
   "inf":"venir", "en":"to come", "type":"irregular",
   "ger":"viniendo", "part":"venido",
+  "uses":[
+   {"u":"come","ex":"Viene de Lima.","en":"She's coming from Lima."},
+   {"u":"venir bien = suit, be handy","ex":"Me viene bien el lunes.","en":"Monday works for me."}
+  ],
   "t":{
    "pres":["vengo","vienes","viene","venimos","vienen"],
    "pret":["vine","viniste","vino","vinimos","vinieron"],
@@ -446,6 +557,10 @@
  {
   "inf":"pensar", "en":"to think", "type":"irregular",
   "ger":"pensando", "part":"pensado",
+  "uses":[
+   {"u":"pensar en = think about","ex":"Pienso en ti.","en":"I think about you."},
+   {"u":"pensar + infinitive = plan to","ex":"Pienso ir el lunes.","en":"I'm planning to go on Monday."}
+  ],
   "t":{
    "pres":["pienso","piensas","piensa","pensamos","piensan"],
    "pret":["pensé","pensaste","pensó","pensamos","pensaron"],
@@ -463,6 +578,10 @@
  {
   "inf":"salir", "en":"to go out, to leave", "type":"irregular",
   "ger":"saliendo", "part":"salido",
+  "uses":[
+   {"u":"leave, go out","ex":"Salgo a las seis.","en":"I leave at six."},
+   {"u":"turn out a certain way","ex":"Todo salió bien.","en":"Everything turned out fine."}
+  ],
   "t":{
    "pres":["salgo","sales","sale","salimos","salen"],
    "pret":["salí","saliste","salió","salimos","salieron"],
@@ -480,6 +599,10 @@
  {
   "inf":"volver", "en":"to return", "type":"irregular",
   "ger":"volviendo", "part":"vuelto",
+  "uses":[
+   {"u":"come back","ex":"Vuelvo en cinco minutos.","en":"I'll be back in five minutes."},
+   {"u":"volver a = do something again","ex":"Volvió a llamar.","en":"He called again."}
+  ],
   "t":{
    "pres":["vuelvo","vuelves","vuelve","volvemos","vuelven"],
    "pret":["volví","volviste","volvió","volvimos","volvieron"],
@@ -497,6 +620,10 @@
  {
   "inf":"tomar", "en":"to take, to drink", "type":"regular",
   "ger":"tomando", "part":"tomado",
+  "uses":[
+   {"u":"drink, or take in general","ex":"Tomo café por la mañana.","en":"I drink coffee in the morning."},
+   {"u":"catch transport","ex":"Toma el autobús.","en":"Take the bus."}
+  ],
   "t":{
    "pres":["tomo","tomas","toma","tomamos","toman"],
    "pret":["tomé","tomaste","tomó","tomamos","tomaron"],
@@ -514,6 +641,10 @@
  {
   "inf":"conocer", "en":"to know (people, places)", "type":"irregular",
   "ger":"conociendo", "part":"conocido",
+  "uses":[
+   {"u":"know a person or place","ex":"No conozco a su hermano.","en":"I don't know his brother."},
+   {"u":"in the preterite it means met","ex":"La conocí en Lima.","en":"I met her in Lima."}
+  ],
   "t":{
    "pres":["conozco","conoces","conoce","conocemos","conocen"],
    "pret":["conocí","conociste","conoció","conocimos","conocieron"],
@@ -548,6 +679,10 @@
  {
   "inf":"sentir", "en":"to feel", "type":"irregular",
   "ger":"sintiendo", "part":"sentido",
+  "uses":[
+   {"u":"lo siento = I'm sorry","ex":"Lo siento mucho.","en":"I'm very sorry."},
+   {"u":"sentirse = feel","ex":"Me siento mal.","en":"I feel ill."}
+  ],
   "t":{
    "pres":["siento","sientes","siente","sentimos","sienten"],
    "pret":["sentí","sentiste","sintió","sentimos","sintieron"],
@@ -565,6 +700,10 @@
  {
   "inf":"tratar", "en":"to try, to treat", "type":"regular",
   "ger":"tratando", "part":"tratado",
+  "uses":[
+   {"u":"tratar de = try to","ex":"Trata de dormir.","en":"Try to sleep."},
+   {"u":"se trata de = it's about","ex":"Se trata de dinero.","en":"It's about money."}
+  ],
   "t":{
    "pres":["trato","tratas","trata","tratamos","tratan"],
    "pret":["traté","trataste","trató","tratamos","trataron"],
@@ -582,6 +721,9 @@
  {
   "inf":"mirar", "en":"to look at", "type":"regular",
   "ger":"mirando", "part":"mirado",
+  "uses":[
+   {"u":"look at, on purpose","ex":"Mira esto.","en":"Look at this."}
+  ],
   "t":{
    "pres":["miro","miras","mira","miramos","miran"],
    "pret":["miré","miraste","miró","miramos","miraron"],
@@ -599,6 +741,10 @@
  {
   "inf":"contar", "en":"to count, to tell", "type":"irregular",
   "ger":"contando", "part":"contado",
+  "uses":[
+   {"u":"tell","ex":"Cuéntame.","en":"Tell me about it."},
+   {"u":"contar con = count on","ex":"Cuenta conmigo.","en":"Count on me."}
+  ],
   "t":{
    "pres":["cuento","cuentas","cuenta","contamos","cuentan"],
    "pret":["conté","contaste","contó","contamos","contaron"],
@@ -616,6 +762,9 @@
  {
   "inf":"empezar", "en":"to begin", "type":"irregular",
   "ger":"empezando", "part":"empezado",
+  "uses":[
+   {"u":"empezar a = start doing","ex":"Empezó a llover.","en":"It started raining."}
+  ],
   "t":{
    "pres":["empiezo","empiezas","empieza","empezamos","empiezan"],
    "pret":["empecé","empezaste","empezó","empezamos","empezaron"],
@@ -633,6 +782,10 @@
  {
   "inf":"esperar", "en":"to wait, to hope", "type":"regular",
   "ger":"esperando", "part":"esperado",
+  "uses":[
+   {"u":"wait","ex":"Espera un momento.","en":"Wait a moment."},
+   {"u":"hope — the same verb","ex":"Espero que sí.","en":"I hope so."}
+  ],
   "t":{
    "pres":["espero","esperas","espera","esperamos","esperan"],
    "pret":["esperé","esperaste","esperó","esperamos","esperaron"],
@@ -650,6 +803,9 @@
  {
   "inf":"buscar", "en":"to look for", "type":"spelling",
   "ger":"buscando", "part":"buscado",
+  "uses":[
+   {"u":"look for — no preposition, unlike English","ex":"Busco un hotel.","en":"I'm looking for a hotel."}
+  ],
   "t":{
    "pres":["busco","buscas","busca","buscamos","buscan"],
    "pret":["busqué","buscaste","buscó","buscamos","buscaron"],
@@ -803,6 +959,9 @@
  {
   "inf":"pedir", "en":"to ask for, to order", "type":"irregular",
   "ger":"pidiendo", "part":"pedido",
+  "uses":[
+   {"u":"ask for, order","ex":"Pedí un café.","en":"I ordered a coffee."}
+  ],
   "t":{
    "pres":["pido","pides","pide","pedimos","piden"],
    "pret":["pedí","pediste","pidió","pedimos","pidieron"],
@@ -939,6 +1098,10 @@
  {
   "inf":"servir", "en":"to serve", "type":"irregular",
   "ger":"sirviendo", "part":"servido",
+  "uses":[
+   {"u":"be useful, work","ex":"Esto no sirve.","en":"This is no good."},
+   {"u":"servir para = be for","ex":"¿Para qué sirve?","en":"What's it for?"}
+  ],
   "t":{
    "pres":["sirvo","sirves","sirve","servimos","sirven"],
    "pret":["serví","serviste","sirvió","servimos","sirvieron"],
@@ -956,6 +1119,10 @@
  {
   "inf":"sacar", "en":"to take out", "type":"spelling",
   "ger":"sacando", "part":"sacado",
+  "uses":[
+   {"u":"take out","ex":"Saca la basura.","en":"Take the rubbish out."},
+   {"u":"get a mark or a result","ex":"Sacó buenas notas.","en":"She got good marks."}
+  ],
   "t":{
    "pres":["saco","sacas","saca","sacamos","sacan"],
    "pret":["saqué","sacaste","sacó","sacamos","sacaron"],
@@ -1007,6 +1174,9 @@
  {
   "inf":"resultar", "en":"to turn out", "type":"regular",
   "ger":"resultando", "part":"resultado",
+  "uses":[
+   {"u":"turn out to be","ex":"Resultó más caro.","en":"It turned out more expensive."}
+  ],
   "t":{
    "pres":["resulto","resultas","resulta","resultamos","resultan"],
    "pret":["resulté","resultaste","resultó","resultamos","resultaron"],
@@ -1160,6 +1330,10 @@
  {
   "inf":"acabar", "en":"to finish, to have just", "type":"regular",
   "ger":"acabando", "part":"acabado",
+  "uses":[
+   {"u":"acabar de = have just done","ex":"Acabo de llegar.","en":"I've just arrived."},
+   {"u":"run out","ex":"Se acabó el agua.","en":"The water ran out."}
+  ],
   "t":{
    "pres":["acabo","acabas","acaba","acabamos","acaban"],
    "pret":["acabé","acabaste","acabó","acabamos","acabaron"],
@@ -1228,6 +1402,9 @@
  {
   "inf":"traer", "en":"to bring", "type":"irregular",
   "ger":"trayendo", "part":"traído",
+  "uses":[
+   {"u":"bring, towards the speaker","ex":"¿Me traes agua?","en":"Could you bring me some water?"}
+  ],
   "t":{
    "pres":["traigo","traes","trae","traemos","traen"],
    "pret":["traje","trajiste","trajo","trajimos","trajeron"],
@@ -1381,6 +1558,9 @@
  {
   "inf":"preguntar", "en":"to ask (a question)", "type":"regular",
   "ger":"preguntando", "part":"preguntado",
+  "uses":[
+   {"u":"ask a question — not the same verb as 'ask for'","ex":"Preguntó por ti.","en":"He asked about you."}
+  ],
   "t":{
    "pres":["pregunto","preguntas","pregunta","preguntamos","preguntan"],
    "pret":["pregunté","preguntaste","preguntó","preguntamos","preguntaron"],
@@ -1398,6 +1578,10 @@
  {
   "inf":"tocar", "en":"to touch, to play (instrument)", "type":"spelling",
   "ger":"tocando", "part":"tocado",
+  "uses":[
+   {"u":"play an instrument","ex":"Toca la guitarra.","en":"He plays the guitar."},
+   {"u":"be someone's turn","ex":"Me toca a mí.","en":"It's my turn."}
+  ],
   "t":{
    "pres":["toco","tocas","toca","tocamos","tocan"],
    "pret":["toqué","tocaste","tocó","tocamos","tocaron"],
@@ -1571,6 +1755,10 @@
   "dative":true,
   "skip":["cmd","neg"],
   "note":"Works backwards: the thing liked is the subject. Me gusta el café, me gustan los libros. Only the él/ella and ellos forms are drilled.",
+  "uses":[
+   {"u":"the thing liked is the subject","ex":"Me gusta el café.","en":"I like coffee."},
+   {"u":"plural thing, plural verb","ex":"Me gustan los dos.","en":"I like both of them."}
+  ],
   "t":{
    "pres":["gusto","gustas","gusta","gustamos","gustan"],
    "pret":["gusté","gustaste","gustó","gustamos","gustaron"],
@@ -1775,6 +1963,10 @@
  {
   "inf":"valer", "en":"to be worth", "type":"irregular",
   "ger":"valiendo", "part":"valido",
+  "uses":[
+   {"u":"be worth, cost","ex":"¿Cuánto vale?","en":"How much is it?"},
+   {"u":"valer la pena = be worth it","ex":"Vale la pena.","en":"It's worth it."}
+  ],
   "t":{
    "pres":["valgo","vales","vale","valemos","valen"],
    "pret":["valí","valiste","valió","valimos","valieron"],
@@ -2047,6 +2239,9 @@
  {
   "inf":"caber", "en":"to fit", "type":"irregular",
   "ger":"cabiendo", "part":"cabido",
+  "uses":[
+   {"u":"fit","ex":"No cabe en el coche.","en":"It doesn't fit in the car."}
+  ],
   "t":{
    "pres":["quepo","cabes","cabe","cabemos","caben"],
    "pret":["cupe","cupiste","cupo","cupimos","cupieron"],
