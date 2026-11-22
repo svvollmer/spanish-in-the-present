@@ -171,6 +171,26 @@ legend{font-family:var(--ui);font-size:12px;text-transform:uppercase;letter-spac
 .say:hover{text-decoration:underline dotted var(--ochre)}
 .listen-cue{color:var(--muted);font-style:italic}
 .dat{font-family:var(--ui);font-size:13px;color:var(--ochre);display:block;margin-top:4px}
+
+/* ---------- common words ---------- */
+.wgrp{margin:0 0 26px}
+.wgrp>h2{font-family:var(--ui);font-size:13px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ochre);border-bottom:1px solid var(--ochre);padding-bottom:5px;margin:0 0 12px}
+.wcard{border:1px solid var(--rule);background:var(--sheet);border-radius:3px;padding:12px 14px;margin:0 0 10px}
+.whead{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:8px}
+.whead .w{font-family:var(--display);font-size:22px;font-weight:700}
+.whead .pos{font-family:var(--ui);font-size:12px;color:var(--muted)}
+.wtier{font-family:var(--ui);font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+  border:1px solid var(--ochre);color:var(--ochre);border-radius:2px;padding:1px 5px}
+.wtier.t1{background:var(--ochre-soft)}
+.wsense{display:grid;grid-template-columns:1fr;gap:2px;padding:7px 0;border-top:1px dotted var(--rule)}
+.wsense:first-of-type{border-top:0}
+.wsense .g{font-family:var(--ui);font-size:13px;color:var(--ink)}
+.wsense .ex{font-family:var(--display);font-size:17px}
+.wsense .exen{font-family:var(--ui);font-size:13px;color:var(--muted)}
+.wcount{font-family:var(--ui);font-size:12px;color:var(--muted);margin:0 0 14px}
+.cloze{font-family:var(--display);font-size:26px;line-height:1.45;margin:2px 0 4px}
+.cloze .gap{color:var(--ochre);border-bottom:2px solid var(--ochre);padding:0 .35em}
 </style>
 </head>
 <body>
@@ -180,6 +200,7 @@ legend{font-family:var(--ui);font-size:12px;text-transform:uppercase;letter-spac
     <a href="#book" data-tab="book">Book</a>
     <a href="#verbs" data-tab="verbs">Verb sheet</a>
     <a href="#drill" data-tab="drill">Drills</a>
+    <a href="#words" data-tab="words">Words</a>
     <a href="#phrases" data-tab="phrases">Phrases</a>
   </nav>
 </div></header>
@@ -737,7 +758,10 @@ legend{font-family:var(--ui);font-size:12px;text-transform:uppercase;letter-spac
   <div class="mode-tabs" role="group" aria-label="Drill type">
     <button class="btn" data-mode="prod" aria-pressed="true">Produce</button>
     <button class="btn" data-mode="recog" aria-pressed="false">Recognize</button>
+    <button class="btn" data-mode="cloze" aria-pressed="false">Gap-fill</button>
+    <button class="btn" data-mode="sense" aria-pressed="false">Which use</button>
   </div>
+  <div id="d-verbfields">
   <fieldset><legend>Tenses</legend><div class="chips" id="d-tenses"></div></fieldset>
   <fieldset><legend>Verbs</legend>
     <select id="d-verbs" style="width:100%;padding:7px;border:1px solid var(--rule);background:var(--paper)">
@@ -745,6 +769,15 @@ legend{font-family:var(--ui);font-size:12px;text-transform:uppercase;letter-spac
     </select>
     <input id="d-one" type="search" list="verb-list" placeholder="Type a verb" style="width:100%;margin-top:6px;padding:7px;border:1px solid var(--rule);background:var(--paper);display:none">
     <datalist id="verb-list"></datalist>
+  </fieldset>
+  </div>
+  <fieldset id="d-wordfields" style="display:none"><legend>Words</legend>
+    <select id="d-wtier" style="width:100%;padding:7px;border:1px solid var(--rule);background:var(--paper)">
+      <option value="all">All words</option><option value="1">Tier 1 only</option><option value="2">Tier 2 only</option>
+    </select>
+    <select id="d-wgrp" style="width:100%;margin-top:6px;padding:7px;border:1px solid var(--rule);background:var(--paper)">
+      <option value="all">All groups</option>
+    </select>
   </fieldset>
   <fieldset><legend>Options</legend>
     <label class="chip"><input type="checkbox" id="d-lenient" checked> Accept missing accents</label>
@@ -765,6 +798,27 @@ legend{font-family:var(--ui);font-size:12px;text-transform:uppercase;letter-spac
   <div id="d-area"></div>
 </div>
 </div>
+</section>
+
+<!-- ============================ WORDS ============================ -->
+<section class="view" id="v-words">
+<div class="eyebrow">Reference</div>
+<h1>Common words, and what they do</h1>
+<p class="lede">Not the most frequent words &mdash; the most <em>useful</em> ones. At your level the
+nouns are rarely the problem; what buries a sentence is the glue: the one-syllable connectors, the
+markers people use to think out loud, and the handful of words that quietly do four jobs each.
+Tap any example to hear it.</p>
+<div class="controls">
+  <label for="w-q">Find<input type="search" id="w-q" placeholder="ya, anyway, since…"></label>
+  <label for="w-tier">Show<select id="w-tier">
+    <option value="all">All words</option>
+    <option value="1">Tier 1 &mdash; constant</option>
+    <option value="2">Tier 2 &mdash; common</option>
+  </select></label>
+  <label for="w-grp">Group<select id="w-grp"><option value="all">All groups</option></select></label>
+  <span class="legend" id="w-count"></span>
+</div>
+<div id="wordlist"></div>
 </section>
 
 <!-- ============================ PHRASES ============================ -->
@@ -921,7 +975,7 @@ function importProgress(file){
 }
 
 /* ---------- routing ---------- */
-const TABS=["book","verbs","drill","phrases"];
+const TABS=["book","verbs","drill","words","phrases"];
 function route(){
   let h=location.hash.slice(1)||"book", ch=null;
   if(/^ch\d+$/.test(h)){ch=h;h="book"}
@@ -1039,18 +1093,33 @@ function initDrill(){
   $("#d-import").addEventListener("change",e=>{const f=e.target.files&&e.target.files[0];if(f)importProgress(f);e.target.value=""});
   renderStats(); idleScreen();
 }
-function setMode(m){MODE=m;$$(".mode-tabs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.mode===m));idleScreen()}
+const WORD_MODES=["cloze","sense"];
+const isWordMode=m=>WORD_MODES.includes(m);
+const MODE_NAME={prod:"Produce",recog:"Recognize",cloze:"Gap-fill",sense:"Which use"};
+function setMode(m){
+  MODE=m;
+  $$(".mode-tabs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.mode===m));
+  // The tense and verb pickers mean nothing for a word drill, and the word pickers mean
+  // nothing for a verb drill. Show whichever set applies rather than greying things out.
+  $("#d-verbfields").style.display=isWordMode(m)?"none":"";
+  $("#d-wordfields").style.display=isWordMode(m)?"":"none";
+  idleScreen();
+}
 function setDrillTenses(ks){$$("#d-tenses input").forEach(i=>i.checked=ks.includes(i.value));idleScreen()}
 function idleScreen(){
   S&&S.timer&&clearInterval(S.timer);S=null;
   const best=store.get("best",{});
-  $("#d-best").textContent=best[MODE]?`Best 60-second sprint (${MODE==="prod"?"Produce":"Recognize"}): ${best[MODE]} correct`:"";
-  $("#d-area").innerHTML=MODE==="prod"
-   ?`<p class="prompt">Produce</p><p class="big">tener → <span class="es" lang="es">tuvimos</span><small>You'll see a verb, a tense and a person. Type the form. Use the accent buttons or your keyboard; Enter checks and moves on.</small></p>`
-   :`<p class="prompt">Recognize</p><p class="big es" lang="es">supieron<small>You'll see a form, as if you just heard it. Pick who and when, as fast as you can. Keys 1–4 work.</small></p>`;
+  $("#d-best").textContent=best[MODE]?`Best 60-second sprint (${MODE_NAME[MODE]}): ${best[MODE]} correct`:"";
+  $("#d-area").innerHTML={
+    prod:`<p class="prompt">Produce</p><p class="big">tener → <span class="es" lang="es">tuvimos</span><small>You'll see a verb, a tense and a person. Type the form. Use the accent buttons or your keyboard; Enter checks and moves on.</small></p>`,
+    recog:`<p class="prompt">Recognize</p><p class="big es" lang="es">supieron<small>You'll see a form, as if you just heard it. Pick who and when, as fast as you can. Keys 1–4 work.</small></p>`,
+    cloze:`<p class="prompt">Gap-fill</p><p class="big"><span class="es" lang="es">No es el precio, <span style="color:var(--ochre);border-bottom:2px solid var(--ochre)">&nbsp;&nbsp;&nbsp;&nbsp;</span> los gastos.</span><small>A real sentence with one word missing, and the English underneath. Type the word that belongs in the gap. This is the drill for <em>use</em> rather than meaning.</small></p>`,
+    sense:`<p class="prompt">Which use</p><p class="big es" lang="es">Ya no vive aquí.<small>You'll see a sentence and one of its words. Pick which of that word's several jobs it is doing here. Keys 1–4 work.</small></p>`
+  }[MODE];
   renderStats();
 }
 function buildPool(){
+  if(isWordMode(MODE))return buildWordPool();
   const ks=$$("#d-tenses input:checked").map(i=>i.value);
   if(!ks.length)return {err:"Pick at least one tense."};
   let vs, sel=$("#d-verbs").value;
@@ -1095,7 +1164,7 @@ function header(){
 function next(){
   if(S.sprint&&Date.now()>=S.end)return;
   const it=pickItem(S.pool,S.last);S.cur=it;S.last=it.id;
-  (MODE==="prod"?showProd:showRecog)(it);
+  ({prod:showProd,recog:showRecog,cloze:showCloze,sense:showSense}[MODE])(it);
 }
 function showProd(it){
   const t=TN[it.k];
@@ -1170,6 +1239,7 @@ function showRecog(it){
    <div class="opts">${opts.map((o,n)=>`<button class="opt" data-n="${n}"><kbd>${n+1}</kbd>${esc(labelOf(o.inf,o.k,o.i))}</button>`).join("")}</div>
    <div class="fb" id="fb"></div>`;
   if(spoken){
+    S.sayText=it.form;
     say(it.form);
     $("#d-replay").onclick=()=>say(it.form);
     $("#d-slow").onclick=()=>say(it.form,.6);
@@ -1192,11 +1262,11 @@ function showRecog(it){
   S.key=choose; S.opts=opts.length;
 }
 document.addEventListener("keydown",e=>{
-  if(!S||MODE!=="recog"||!$("#v-drill").classList.contains("on"))return;
+  if(!S||!(MODE==="recog"||MODE==="sense")||!$("#v-drill").classList.contains("on"))return;
   if(e.target.tagName==="INPUT"||e.target.tagName==="SELECT")return;
   const n=+e.key;
   if(n>=1&&n<=S.opts){e.preventDefault();S.key(n-1)}
-  else if((e.key==="r"||e.key==="R")&&S.cur&&audioOn()){e.preventDefault();say(S.cur.form)}
+  else if((e.key==="r"||e.key==="R")&&S.sayText&&audioOn()){e.preventDefault();say(S.sayText)}
   else if(e.key==="Enter"&&$(".opt.right")){e.preventDefault();next()}
 });
 function renderStats(){
@@ -1206,6 +1276,158 @@ function renderStats(){
   if(all.length&&!days.includes(today)&&S&&S.n){days.push(today);if(days.length>400)days.splice(0,days.length-400);store.set("days",days)}
   let streak=0;{let d=new Date();for(;;){if(days.includes(ymd(d))){streak++;d.setDate(d.getDate()-1)}else break}}
   $("#d-stats").innerHTML=`<span><b>${all.length}</b> items practised</span><span><b>${known}</b> solid</span><span><b>${due}</b> due for review</span><span><b>${streak}</b>-day streak</span>`;
+}
+
+/* ---------- common words ----------
+   Loaded separately from verbs.json: if the word list fails, the verb drills must still work.
+   SRS ids are namespaced `w:<word>|<sense>|<mode>` so they can never collide with a verb id
+   (`<inf>|<tense>|<person>|<mode>`), and so the "my weak spots" verb filter ignores them. */
+let WORDS=[], WG=[];
+
+const escRe=x=>x.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+const unaccent=x=>x.normalize("NFD").replace(/\p{M}/gu,"").toLowerCase();
+
+/* Blank the headword out of its example.
+   EVERY occurrence, not just the first: `ni` and friends are correlative ("ni el precio ni los
+   linderos"), so blanking one copy would leave the answer sitting in the sentence. Blanking all
+   of them is also the better drill, since the pair is the thing being learned.
+   The builder guarantees the target is present, so the fallback should never fire — it is there
+   because giving the answer away silently would be worse than rendering it oddly. */
+function blankOut(ex,target){
+  const re=new RegExp("(^|[^\\p{L}])("+escRe(target)+")(?![\\p{L}])","giu");
+  if(re.test(ex))return ex.replace(re,(m,pre)=>pre+"\u0001");
+  let out="",rest=ex,i;
+  while((i=unaccent(rest).indexOf(unaccent(target)))>=0){
+    out+=rest.slice(0,i)+"\u0001";
+    rest=rest.slice(i+target.length);
+  }
+  return out+rest;
+}
+const clozeTarget=(w,sn)=>sn.blank||w.w;
+
+function initWords(){
+  WG=[...new Set(WORDS.map(w=>w.grp))];
+  const opts=WG.map(g=>`<option value="${esc(g)}">${esc(g)}</option>`).join("");
+  $("#w-grp").insertAdjacentHTML("beforeend",opts);
+  $("#d-wgrp").insertAdjacentHTML("beforeend",opts);
+  ["#w-q","#w-tier","#w-grp"].forEach(sel=>{
+    const el=$(sel); el.addEventListener(el.tagName==="SELECT"?"change":"input",renderWords);
+  });
+  $("#wordlist").addEventListener("click",e=>{
+    const t=e.target.closest("[data-say]"); if(t)say(t.dataset.say);
+  });
+  renderWords();
+}
+
+function wordMatches(w,q){
+  if(!q)return true;
+  const hay=unaccent([w.w,w.pos,w.grp,w.note||"",
+    ...w.senses.flatMap(sn=>[sn.g,sn.ex,sn.en])].join(" "));
+  return hay.includes(unaccent(q));
+}
+
+function renderWords(){
+  const q=$("#w-q").value.trim(), tier=$("#w-tier").value, grp=$("#w-grp").value;
+  const shown=WORDS.filter(w=>(tier==="all"||w.tier===+tier)&&(grp==="all"||w.grp===grp)&&wordMatches(w,q));
+  $("#w-count").textContent=`${shown.length} of ${WORDS.length} words · ${shown.reduce((n,w)=>n+w.senses.length,0)} uses`;
+  const groups=WG.filter(g=>shown.some(w=>w.grp===g));
+  $("#wordlist").innerHTML=groups.map(g=>`<section class="wgrp"><h2>${esc(g)}</h2>${
+    shown.filter(w=>w.grp===g).map(w=>`<article class="wcard">
+      <div class="whead"><span class="w es" lang="es">${esc(w.w)}</span><span class="pos">${esc(w.pos)}</span><span class="wtier t${w.tier}">tier ${w.tier}</span></div>
+      ${w.senses.map(sn=>`<div class="wsense">
+        <div class="g">${esc(sn.g)}</div>
+        <div class="ex es say" lang="es" data-say="${esc(sn.ex)}">${esc(sn.ex)}</div>
+        <div class="exen">${esc(sn.en)}</div>
+      </div>`).join("")}
+      ${w.note?`<div class="vnote">${esc(w.note)}</div>`:""}
+    </article>`).join("")
+  }</section>`).join("")||`<p class="note">Nothing matches that.</p>`;
+}
+
+function buildWordPool(){
+  if(!WORDS.length)return {err:"The word list hasn't loaded. Serve this page over HTTP rather than opening the file directly."};
+  const tier=$("#d-wtier").value, grp=$("#d-wgrp").value;
+  let ws=WORDS.filter(w=>(tier==="all"||w.tier===+tier)&&(grp==="all"||w.grp===grp));
+  // "Which use" is a discrimination task: it only makes sense where a word has rival uses.
+  if(MODE==="sense")ws=ws.filter(w=>w.senses.length>1);
+  const pool=[];
+  for(const w of ws)w.senses.forEach((sn,si)=>pool.push({id:`w:${w.w}|${si}|${MODE}`,w,si,sn}));
+  if(!pool.length)return {err:MODE==="sense"
+    ?"No word in that selection has more than one use, so there is nothing to tell apart. Widen the group, or try Gap-fill."
+    :"No words in that selection."};
+  return {pool};
+}
+
+function showCloze(it){
+  const w=it.w, sn=it.sn, ans=clozeTarget(w,sn);
+  const parts=blankOut(sn.ex,ans).split("\u0001");
+  const gap=`<span class="gap">&nbsp;&nbsp;&nbsp;</span>`;
+  const sentence=parts.map(esc).join(gap);
+  const gaps=parts.length-1;
+  $("#d-area").innerHTML=`<div>${header()}</div>
+   <p class="prompt">${gaps>1?`The same word is missing ${gaps} times`:"One word is missing"}</p>
+   <p class="cloze es" lang="es">${sentence}</p>
+   <p class="person">${esc(sn.en)} <span class="note">(${esc(w.pos)})</span></p>
+   <form class="answer-row" id="pf" autocomplete="off"><input id="pa" aria-label="The missing word" autocapitalize="off" spellcheck="false" autocorrect="off"><button class="btn primary">Check</button></form>
+   <div class="accents">${["á","é","í","ó","ú","ñ","ü"].map(c=>`<button type="button" data-c="${c}">${c}</button>`).join("")}</div>
+   <div class="fb" id="fb"></div>`;
+  const inp=$("#pa");inp.focus();
+  $$(".accents button").forEach(b=>b.onclick=()=>{const p=inp.selectionStart??inp.value.length;inp.value=inp.value.slice(0,p)+b.dataset.c+inp.value.slice(inp.selectionEnd??p);inp.focus();inp.setSelectionRange(p+1,p+1)});
+  let checked=false;
+  $("#pf").onsubmit=e=>{
+    e.preventDefault();
+    if(checked){next();return}
+    if(!inp.value.trim())return;
+    checked=true;
+    const len=$("#d-lenient").checked;
+    const exact=norm(inp.value,false)===norm(ans,false);
+    const ok=exact||norm(inp.value,true)===norm(ans,true);
+    const counted=ok&&(exact||len);
+    S.n++; if(counted){S.ok++;S.streak++}else S.streak=0;
+    grade(it.id,counted);
+    $("#fb").innerHTML=(counted?`<span class="ok">Right.</span> ${exact?"":`Accents: <b lang="es">${esc(ans)}</b>`}`
+      :ok?`<span class="no">Check the accent:</span> <b lang="es">${esc(ans)}</b>`
+      :`<span class="no">Not quite.</span> It's <b lang="es">${esc(ans)}</b>`)
+      +`<div class="row"><span lang="es">${esc(sn.ex)}</span></div>`
+      +`<div class="row">${esc(w.w)} here means <b>${esc(sn.g)}</b>.</div>`
+      +(w.note?`<div class="row note">${esc(w.note)}</div>`:"")
+      +`<div class="row">Enter for the next one.</div>`;
+    if(audioOn())say(sn.ex);
+    inp.readOnly=true;$("#pf button").textContent="Next";$("#pf button").focus();
+    renderStats();
+    if(S.sprint&&counted)setTimeout(()=>{if(S&&S.cur===it)next()},350);
+  };
+}
+
+function showSense(it){
+  const w=it.w, sn=it.sn;
+  // Distractors are this word's OTHER uses, which is the actual confusion to resolve.
+  const opts=w.senses.map((s,i)=>({s,i})).sort(()=>Math.random()-.5);
+  const spoken=audioOn();
+  S.opts=opts.length; S.sayText=sn.ex;
+  $("#d-area").innerHTML=`<div>${header()}</div>
+   <p class="prompt">Which job is <span class="es" lang="es">${esc(w.w)}</span> doing here?</p>
+   <p class="cloze es" lang="es">${esc(sn.ex)}</p>
+   ${spoken?`<div class="go" style="margin:0 0 12px"><button class="btn" type="button" id="d-replay">Play again <kbd>R</kbd></button><button class="btn" type="button" id="d-slow">Slower</button></div>`:""}
+   <div class="opts">${opts.map((o,n)=>`<button class="opt" data-n="${n}"><kbd>${n+1}</kbd>${esc(o.s.g)}</button>`).join("")}</div>
+   <div class="fb" id="fb"></div>`;
+  if(spoken){say(sn.ex);$("#d-replay").onclick=()=>say(sn.ex);$("#d-slow").onclick=()=>say(sn.ex,.6)}
+  let done=false;
+  const pick=n=>{
+    if(done)return; done=true;
+    const ok=opts[n].i===it.si;
+    S.n++; if(ok){S.ok++;S.streak++}else S.streak=0;
+    grade(it.id,ok);
+    $$(".opt").forEach((b,j)=>{if(opts[j].i===it.si)b.classList.add("right");else if(j===n)b.classList.add("wrong")});
+    $("#fb").innerHTML=(ok?`<span class="ok">Right.</span>`:`<span class="no">Not that one.</span>`)
+      +`<div class="row">${esc(sn.en)}</div>`
+      +(w.note?`<div class="row note">${esc(w.note)}</div>`:"")
+      +`<div class="row">Enter for the next one.</div>`;
+    renderStats();
+    if(S.sprint&&ok)setTimeout(()=>{if(S&&S.cur===it)next()},350);
+  };
+  S.key=pick;
+  $$(".opt").forEach(b=>b.onclick=()=>pick(+b.dataset.n));
 }
 
 /* ---------- phrases ---------- */
@@ -1313,6 +1535,14 @@ if("speechSynthesis" in window){
   VOICE=pickVoice();
   speechSynthesis.onvoiceschanged=()=>{VOICE=pickVoice();syncAudioUI()};   // Chrome loads these late
 }
+fetch("words.json").then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(d=>{
+  WORDS=d; initWords();
+}).catch(err=>{
+  // The word list is additive: a failure here must not take the verb drills with it.
+  $("#wordlist").innerHTML=`<p class="fb"><span class="no">The word list didn't load (${esc(err.message)}).</span> Open this page from a web server rather than straight from a file.</p>`;
+  $$('.mode-tabs button[data-mode="cloze"],.mode-tabs button[data-mode="sense"]').forEach(b=>b.disabled=true);
+});
+
 fetch("verbs.json").then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(d=>{
   VERBS=d; d.forEach(v=>VI[v.inf]=v);
   buildFormIdx(); initSheet(); renderSheet(); initDrill();
